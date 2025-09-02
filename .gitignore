@@ -1,0 +1,27 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# IDE and editor files (全プロジェクト共通)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files (全プロジェクト共通)
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Environment files (全プロジェクト共通)
+.env
+
+# Temporary files (全プロジェクト共通)
+*.tmp
+*.temp
+
+# Kiro related files (AI開発支援ツール)
+.kiro/
+
+# mise関連ファイル (ツールバージョン管理)
+.mise/
+.mise.lock

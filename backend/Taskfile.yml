@@ -1,0 +1,217 @@
+# 既存の開発者が cd backend && task dev で作業できるよう維持
+# プロジェクト直下からは task dev:backend でアクセス
+version: '3'
+
+vars:
+  EXCLUDES_PATH: src/db/migrations
+
+tasks:
+  install:
+    desc: "Install dependencies using uv"
+    cmds:
+      - uv sync --group dev
+
+  dev:
+    desc: "Start development server"
+    cmds:
+      - uv run uvicorn src.main:app --host "::" --port 8000 --reload
+
+  build:
+    desc: "Build backend (placeholder)"
+    cmds:
+      - echo "Backend build completed"
+
+  test:
+    desc: "Run tests with pytest"
+    cmds:
+      - uv run pytest
+
+  lint:
+    desc: "Run linting with ruff (with excludes)"
+    cmds:
+      - |
+        EXCLUDES=""
+        for path in {{.EXCLUDES_PATH}}; do
+          EXCLUDES="$EXCLUDES --exclude $path"
+        done
+        uv run ruff check . $EXCLUDES
+
+  lint:fix:
+    desc: "Run linting with ruff and auto-fix issues (with excludes)"
+    cmds:
+      - |
+        EXCLUDES=""
+        for path in {{.EXCLUDES_PATH}}; do
+          EXCLUDES="$EXCLUDES --exclude $path"
+        done
+        uv run ruff check . --fix $EXCLUDES
+
+  format:
+    desc: "Format code with ruff (with excludes)"
+    cmds:
+      - |
+        EXCLUDES=""
+        for path in {{.EXCLUDES_PATH}}; do
+          EXCLUDES="$EXCLUDES --exclude $path"
+        done
+        uv run ruff format . $EXCLUDES
+
+  format:check:
+    desc: "Check code formatting without making changes (with excludes)"
+    cmds:
+      - |
+        EXCLUDES=""
+        for path in {{.EXCLUDES_PATH}}; do
+          EXCLUDES="$EXCLUDES --exclude $path"
+        done
+        uv run ruff format . --check $EXCLUDES
+
+  typecheck:
+    desc: "Run type checking with mypy (with excludes)"
+    cmds:
+      - |
+        EXCLUDES=""
+        for path in {{.EXCLUDES_PATH}}; do
+          EXCLUDES="$EXCLUDES --exclude $path"
+        done
+        uv run mypy src $EXCLUDES
+
+  check:all:
+    desc: "Run all code quality checks (lint, format, typecheck)"
+    cmds:
+      - |
+        echo "🔍 コード品質チェック開始（除外: {{.EXCLUDES_PATH}}）"
+      - task lint
+      - task format:check
+      - task typecheck
+      - |
+        echo "✅ すべてのコード品質チェックが完了しました（除外: {{.EXCLUDES_PATH}}）"
+
+  fix:all:
+    desc: "Auto-fix all possible issues (lint + format)"
+    cmds:
+      - |
+         echo "🔧 自動修正開始（除外: {{.EXCLUDES_PATH}}）"
+      - task lint:fix
+      - task format
+      - |
+        echo "✅ 自動修正完了。型チェックを実行してください - task typecheck"
+
+  # マイグレーション関連
+  migrate:
+    desc: "Run auto migration (generate + upgrade)"
+    cmds:
+      - uv run python -m src.script.auto_migrate
+
+  migrate:generate:
+    desc: "Generate migration only (no upgrade)"
+    cmds:
+      - uv run python -m src.script.auto_migrate --no-upgrade
+
+  migrate:status:
+    desc: "Show migration status"
+    cmds:
+      - uv run python -m src.script.auto_migrate --status
+
+  migrate:upgrade:
+    desc: "Upgrade database to latest migration"
+    cmds:
+      - uv run alembic upgrade head
+
+  migrate:downgrade:
+    desc: "Safely rollback database by one migration (with file integrity check)"
+    cmds:
+      - uv run python -m src.script.migration_safety --downgrade
+
+  migrate:downgrade:force:
+    desc: "Force rollback database by one migration (skip integrity check)"
+    cmds:
+      - echo "⚠️  強制巻き戻し（ファイル整合性チェックをスキップ）"
+      - uv run alembic downgrade -1
+
+  migrate:check:
+    desc: "Check migration files integrity"
+    cmds:
+      - uv run python -m src.script.migration_safety --check-only
+
+  migrate:reset:
+    desc: "Reset database to base (remove all migrations)"
+    cmds:
+      - echo "⚠️  データベースを初期状態にリセットします"
+      - uv run alembic downgrade base
+      - echo "✅ データベースリセット完了（全てのマイグレーションが削除されました）"
+
+  migrate:history:
+    desc: "Show migration history"
+    cmds:
+      - uv run alembic history
+
+  # Docker関連
+  docker:build:
+    desc: "Build Docker image"
+    cmds:
+      - docker-compose -f docker/docker-compose.yml build
+
+  docker:up:
+    desc: "Start Docker containers (auto-detect DEBUG mode)"
+    dotenv: ['.env']
+    cmds:
+      - |
+        if [ "${DEBUG:-false}" = "true" ]; then
+          echo "🐛 DEBUG=true: Starting with Adminer"
+          COMPOSE_PROFILES=debug docker-compose -f docker/docker-compose.yml --env-file .env up
+        else
+          echo "🚀 DEBUG=false: Starting without Adminer"
+          docker-compose -f docker/docker-compose.yml --env-file .env up
+        fi
+
+  docker:down:
+    desc: "Stop Docker containers (including Adminer)"
+    cmds:
+      - COMPOSE_PROFILES=debug docker-compose -f docker/docker-compose.yml down
+
+  docker:db:
+    desc: "Start only database container (auto-detect DEBUG mode)"
+    dotenv: ['.env']
+    cmds:
+      - |
+        if [ "${DEBUG:-false}" = "true" ]; then
+          echo "🐛 DEBUG=true: Starting DB with Adminer"
+          COMPOSE_PROFILES=debug docker-compose -f docker/docker-compose.yml --env-file .env up db adminer
+        else
+          echo "🚀 DEBUG=false: Starting DB only"
+          docker-compose -f docker/docker-compose.yml --env-file .env up db
+        fi
+
+  docker:db:detached:
+    desc: "Start database container in background (auto-detect DEBUG mode)"
+    dotenv: ['.env']
+    cmds:
+      - |
+        if [ "${DEBUG:-false}" = "true" ]; then
+          echo "🐛 DEBUG=true: Starting DB with Adminer in background"
+          COMPOSE_PROFILES=debug docker-compose -f docker/docker-compose.yml --env-file .env up -d db adminer
+        else
+          echo "🚀 DEBUG=false: Starting DB only in background"
+          docker-compose -f docker/docker-compose.yml --env-file .env up -d db
+        fi
+
+  docker:logs:db:
+    desc: "Show database container logs"
+    cmds:
+      - docker-compose -f docker/docker-compose.yml logs -f db
+
+  docker:restart:db:
+    desc: "Restart database container"
+    cmds:
+      - docker-compose -f docker/docker-compose.yml restart db
+
+  clean:
+    desc: "Clean up generated files"
+    cmds:
+      - rm -rf .pytest_cache
+      - rm -rf .mypy_cache
+      - rm -rf .ruff_cache
+      - rm -rf __pycache__
+      - find . -name "*.pyc" -delete
+      - find . -name "*.pyo" -delete

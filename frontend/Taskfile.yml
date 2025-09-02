@@ -1,0 +1,149 @@
+version: '3'
+
+tasks:
+  list:
+    desc: "Display available task commands for frontend"
+    cmds:
+      - echo "📋 Available frontend task commands:"
+      - task --list
+
+  install:
+    desc: "Install dependencies using Bun"
+    cmds:
+      - bun install
+
+  # Basic commands
+  dev:
+    desc: "Start development server (Next.js)"
+    cmds:
+      - bun run dev
+
+  build:
+    desc: "Build production application"
+    cmds:
+      - bun run build
+
+  start:
+    desc: "Start production server"
+    cmds:
+      - bun run start
+
+  # Code quality commands
+  check:
+    desc: "Run Biome linter and formatter checks"
+    cmds:
+      - bun run check
+
+  check:fix:
+    desc: "Run Biome auto-fix (including unsafe fixes)"
+    cmds:
+      - bun run check:fix
+
+  format:
+    desc: "Check code formatting with Biome"
+    cmds:
+      - bun run format
+
+  format:fix:
+    desc: "Auto-format code with Biome"
+    cmds:
+      - bun run format:fix
+
+  typecheck:
+    desc: "Run TypeScript type checking"
+    cmds:
+      - bun run typecheck
+
+  # Test commands
+  test:
+    desc: "Run tests once with Vitest"
+    cmds:
+      - bun run test
+
+  # Storybook commands
+  storybook:
+    desc: "Start Storybook development server"
+    cmds:
+      - bun run storybook
+
+  build-storybook:
+    desc: "Build Storybook"
+    cmds:
+      - bun run build-storybook
+
+  # Integrated quality checks
+  check:all:
+    desc: "Run all code quality checks (check, format, typecheck)"
+    cmds:
+      - task check
+      - task format
+      - task typecheck
+      - echo "✅ All code quality checks completed"
+
+  fix:all:
+    desc: "Run integrated auto-fix (check:fix + format:fix)"
+    cmds:
+      - echo "🔧 Starting code quality auto-fix..."
+      - task check:fix
+      - task format:fix
+      - echo "✅ Auto-fix completed. Please run type checking - task typecheck"
+
+  # Docker関連タスク
+  docker:build:
+    desc: "Build Docker image"
+    cmds:
+      - docker build -f docker/Dockerfile -t frontend:latest .
+
+  docker:run:
+    desc: "Run Docker container"
+    cmds:
+      - docker run -d -p 3000:3000 --name frontend-app 
+        --env-file docker/.env.docker
+        -v npm-cache:/root/.npm 
+        frontend:latest
+
+  docker:stop:
+    desc: "Stop Docker container"
+    cmds:
+      - docker stop frontend-app || true
+      - docker rm frontend-app || true
+
+  docker:logs:
+    desc: "Show Docker container logs"
+    cmds:
+      - docker logs frontend-app
+
+  docker:shell:
+    desc: "Access Docker container shell"
+    cmds:
+      - docker exec -it frontend-app sh
+
+  docker:clean:
+    desc: "Clean Docker images and volumes"
+    cmds:
+      - docker rmi frontend:latest || true
+      - docker volume rm npm-cache || true
+
+  # shadcn/ui commands
+  ui:add:
+    desc: "Add shadcn/ui component"
+    cmds:
+      - bunx shadcn@latest add {{.CLI_ARGS}}
+
+  rebuild:
+    desc: "Clean .next cache and rebuild Next.js application"
+    cmds:
+      - echo "🧹 Cleaning .next cache..."
+      - rm -rf .next
+      - echo "🔨 Rebuilding Next.js application..."
+      - bun run build
+      - echo "✅ Rebuild completed successfully"
+
+  clean:
+    desc: "Clean generated files"
+    cmds:
+      - rm -rf .next
+      - rm -rf node_modules/.cache
+      - rm -rf dist
+      - rm -rf storybook-static
+      - echo "✅ Frontend generated files cleaned"

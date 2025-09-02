@@ -1,0 +1,288 @@
+version: "3"
+
+# === 共通操作（フルスタック統合タスク） ===
+tasks:
+  list:
+    desc: "task command lists"
+    cmds:
+      - task --list
+
+  install:
+    desc: "Install all dependencies and setup Git hooks"
+    cmds:
+      - task install:backend
+      - task install:frontend
+      - task install:similarity
+      - task install:hooks
+
+  dev:
+    desc: "Start both frontend and backend development servers"
+    deps: [dev:backend, dev:frontend]
+
+  build:
+    desc: "Build both frontend and backend"
+    cmds:
+      - task build:backend
+      - task build:frontend
+
+  test:
+    desc: "Run all tests"
+    cmds:
+      - task test:backend
+      - task test:frontend
+
+  check:all:
+    desc: "Run all quality checks"
+    cmds:
+      - task check:backend
+      - task check:frontend
+
+  fix:all:
+    desc: "Run integrated auto-fix for both frontend and backend"
+    cmds:
+      - task fix:backend
+      - task fix:frontend
+
+  check:fix:all:
+    desc: "Run check auto-fix for both frontend and backend"
+    cmds:
+      - task check:fix:backend
+      - task check:fix:frontend
+
+  format:fix:all:
+    desc: "Run format auto-fix for both frontend and backend"
+    cmds:
+      - task format:fix:backend
+      - task format:fix:frontend
+
+  clean:
+    desc: "Clean all generated files"
+    cmds:
+      - task clean:backend
+      - task clean:frontend
+
+  install:similarity:
+    desc: "Install similarity-ts via mise"
+    cmds:
+      - mise exec -- cargo install similarity-ts
+
+  install:hooks:
+    desc: "Install Git hooks using lefthook"
+    cmds:
+      - |
+        echo "🔧 Setting up Git hooks..."
+        lefthook install
+        echo "✅ Git hooks installed successfully"
+        echo "ℹ️  Quality checks will now run automatically on commit and push"
+
+  # === Docker含む共通操作 ===
+  docker:build:
+    desc: "Build all Docker images"
+    cmds:
+      - task docker:build:backend
+      - task docker:build:frontend
+
+  docker:up:
+    desc: "Start all Docker environments"
+    cmds:
+      - task docker:up:backend
+      - task docker:up:frontend
+
+  docker:down:
+    desc: "Stop all Docker environments"
+    cmds:
+      - task docker:down:backend
+      - task docker:down:frontend
+
+  docker:up:db:
+    desc: "Start database container (auto-detect DEBUG mode)"
+    cmds:
+      - task -d backend docker:db:detached
+
+  docker:logs:db:
+    desc: "Show database container logs"
+    cmds:
+      - task -d backend docker:logs:db
+
+  docker:restart:db:
+    desc: "Restart database container"
+    cmds:
+      - task -d backend docker:restart:db
+
+  # === Frontend専用操作 ===
+  install:frontend:
+    desc: "[Frontend] Install dependencies using Bun"
+    cmds:
+      - task -d frontend install
+
+  dev:frontend:
+    desc: "[Frontend] Start development server"
+    cmds:
+      - task -d frontend dev
+
+  build:frontend:
+    desc: "[Frontend] Build production application"
+    cmds:
+      - task -d frontend build
+
+  test:frontend:
+    desc: "[Frontend] Run all tests, or specific test with -- path/to/test.ts"
+    cmds:
+      - task -d frontend test {{.CLI_ARGS}}
+
+  check:frontend:
+    desc: "[Frontend] Run all quality checks"
+    cmds:
+      - task -d frontend check:all
+
+  fix:frontend:
+    desc: "[Frontend] Run integrated auto-fix (check:fix + format:fix)"
+    cmds:
+      - task -d frontend fix:all
+
+  check:fix:frontend:
+    desc: "[Frontend] Run Biome auto-fix (including unsafe fixes)"
+    cmds:
+      - task -d frontend check:fix
+
+  format:fix:frontend:
+    desc: "[Frontend] Auto-format code with Biome"
+    cmds:
+      - task -d frontend format:fix
+
+  rebuild:frontend:
+    desc: "[Frontend] Clean .next cache and rebuild Next.js application"
+    cmds:
+      - task -d frontend rebuild
+
+  clean:frontend:
+    desc: "[Frontend] Clean generated files"
+    cmds:
+      - task -d frontend clean
+
+  ui:add:
+    desc: "[Frontend] Add shadcn/ui component"
+    cmds:
+      - task -d frontend ui:add {{.CLI_ARGS}}
+
+  docker:build:frontend:
+    desc: "[Frontend] Build Docker image"
+    dir: frontend
+    cmds:
+      - docker-compose -f docker/docker-compose.yml build
+
+  docker:up:frontend:
+    desc: "[Frontend] Start Docker environment"
+    dir: frontend
+    cmds:
+      - docker-compose -f docker/docker-compose.yml up
+
+  docker:down:frontend:
+    desc: "[Frontend] Stop Docker environment"
+    dir: frontend
+    cmds:
+      - docker-compose -f docker/docker-compose.yml down
+
+  # === Backend専用操作 ===
+  install:backend:
+    desc: "[Backend] Install dependencies using uv"
+    cmds:
+      - task -d backend install
+
+  dev:backend:
+    desc: "[Backend] Start development server"
+    cmds:
+      - task -d backend dev
+
+  build:backend:
+    desc: "[Backend] Build backend (placeholder)"
+    cmds:
+      - task -d backend build
+
+  test:backend:
+    desc: "[Backend] Run all tests, or specific test with -- path/to/test.py"
+    cmds:
+      - task -d backend test {{.CLI_ARGS}}
+
+  check:backend:
+    desc: "[Backend] Run all code quality checks"
+    cmds:
+      - task -d backend check:all
+
+  fix:backend:
+    desc: "[Backend] Auto-fix all possible issues (lint + format)"
+    cmds:
+      - task -d backend fix:all
+
+  check:fix:backend:
+    desc: "[Backend] Run linting with ruff and auto-fix issues"
+    cmds:
+      - task -d backend lint:fix
+
+  format:fix:backend:
+    desc: "[Backend] Format code with ruff"
+    cmds:
+      - task -d backend format
+
+  clean:backend:
+    desc: "[Backend] Clean generated files"
+    cmds:
+      - task -d backend clean
+
+  docker:build:backend:
+    desc: "[Backend] Build Docker image"
+    cmds:
+      - task -d backend docker:build
+
+  docker:up:backend:
+    desc: "[Backend] Start Docker environment"
+    cmds:
+      - task -d backend docker:up
+
+  docker:down:backend:
+    desc: "[Backend] Stop Docker environment (includes database)"
+    cmds:
+      - task -d backend docker:down
+
+  # マイグレーション関連
+  migrate:
+    desc: "[Backend] Run auto migration (generate + upgrade)"
+    cmds:
+      - task -d backend migrate
+
+  migrate:generate:
+    desc: "[Backend] Generate migration only (no upgrade)"
+    cmds:
+      - task -d backend migrate:generate
+
+  migrate:status:
+    desc: "[Backend] Show migration status"
+    cmds:
+      - task -d backend migrate:status
+
+  migrate:upgrade:
+    desc: "[Backend] Upgrade database to latest migration"
+    cmds:
+      - task -d backend migrate:upgrade
+
+  migrate:downgrade:
+    desc: "[Backend] Safely rollback database by one migration"
+    cmds:
+      - task -d backend migrate:downgrade
+
+  migrate:check:
+    desc: "[Backend] Check migration files integrity"
+    cmds:
+      - task -d backend migrate:check
+
+  migrate:reset:
+    desc: "[Backend] Reset database to base (remove all migrations)"
+    cmds:
+      - echo "⚠️  データベースを初期状態にリセットします"
+      - task -d backend migrate:reset
+      - echo "✅ データベースリセット完了"
+
+  migrate:history:
+    desc: "[Backend] Show migration history"
+    cmds:
+      - task -d backend migrate:history

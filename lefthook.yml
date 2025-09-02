@@ -1,0 +1,119 @@
+pre-commit:
+  parallel: true
+  commands:
+    frontend-fix-and-check:
+      root: "frontend/"
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        echo "🔧 Frontend: Auto-fix and quality check..."
+        task fix:all
+        git add {staged_files}
+        task check:all
+      stage_fixed: true
+
+    backend-fix-and-check:
+      root: "backend/"
+      glob: "*.py"
+      run: |
+        echo "🔧 Backend: Auto-fix and quality check..."
+        task fix:all
+        git add {staged_files}
+        task check:all
+      stage_fixed: true
+
+    config-files-check:
+      glob: "*.{json,yml,yaml,toml,md}"
+      exclude: "node_modules/**/*"
+      run: |
+        echo "📋 Config files changed. Running checks..."
+        if echo "{staged_files}" | grep -E "(package\.json|bun\.lockb|tsconfig|biome|\.env)" >/dev/null; then
+          echo "🎯 Frontend config detected"
+          cd frontend && task check:all
+        fi
+        if echo "{staged_files}" | grep -E "(pyproject\.toml|uv\.lock|\.env|alembic\.ini)" >/dev/null; then
+          echo "🎯 Backend config detected"
+          cd backend && task check:all
+        fi
+        if echo "{staged_files}" | grep -E "(Taskfile\.yml|\.mise\.toml|lefthook\.yml)" >/dev/null; then
+          echo "🎯 Project-wide config detected"
+          task check:all
+        fi
+
+    similarity-check:
+      root: "frontend/"
+      glob: "*.{js,ts,tsx,jsx}"
+      run: |
+        echo "🔍 Checking code similarity..."
+        if command -v mise >/dev/null 2>&1 && mise exec -- which similarity-ts >/dev/null 2>&1; then
+          mise exec -- similarity-ts {staged_files} --threshold=0.8 || echo "⚠️ Similar code detected - consider refactoring"
+        elif command -v similarity-ts >/dev/null 2>&1; then
+          similarity-ts {staged_files} --threshold=0.8 || echo "⚠️ Similar code detected - consider refactoring"
+        else
+          echo "ℹ️ Similarity tool not found. Install with: task install:similarity"
+        fi
+
+# pushのレスポンスが遅くなるのでコメントアウト
+# pre-push:
+#   parallel: true
+#   commands:
+#     build-test:
+#       run: |
+#         echo "🏗️ Build test (quality checks completed in pre-commit)..."
+#         if git diff --name-only HEAD~1 | grep -E "frontend/.*\.(ts|tsx|js|jsx)" >/dev/null; then
+#           echo "📦 Frontend build test..."
+#           cd frontend && task build
+#         fi
+#         if git diff --name-only HEAD~1 | grep -E "backend/.*\.py" >/dev/null; then
+#           echo "📦 Backend build test..."
+#           cd backend && task build
+#         fi
+# 
+#     ci-alignment-check:
+#       run: |
+#         echo "🔍 CI/CD alignment check..."
+#         if command -v mise >/dev/null 2>&1; then
+#           mise list | grep -E "(python|node|bun)" || echo "⚠️ Tool versions may differ from CI/CD"
+#         fi
+
+# EXAMPLE USAGE (commented out):
+#
+#   Refer for explanation to following link:
+#   https://lefthook.dev/configuration/
+#
+# pre-push:
+#   jobs:
+#     - name: packages audit
+#       tags:
+#         - frontend
+#         - security
+#       run: yarn audit
+#
+#     - name: gems audit
+#       tags:
+#         - backend
+#         - security
+#       run: bundle audit
+#
+# pre-commit:
+#   parallel: true
+#   jobs:
+#     - run: yarn eslint {staged_files}
+#       glob: "*.{js,ts,jsx,tsx}"
+#
+#     - name: rubocop
+#       glob: "*.rb"
+#       exclude:
+#         - config/application.rb
+#         - config/routes.rb
+#       run: bundle exec rubocop --force-exclusion {all_files}
+#
+#     - name: govet
+#       files: git ls-files -m
+#       glob: "*.go"
+#       run: go vet {files}
+#
+#     - script: "hello.js"
+#       runner: node
+#
+#     - script: "hello.go"
+#       runner: go run

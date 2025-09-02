@@ -1,0 +1,15 @@
+[tools]
+# バックエンドツール
+python = "3.11"
+uv = "latest"
+
+# フロントエンドツール
+node = "20"
+bun = "1.2.21"
+
+# 共通ツール
+task = "latest"
+lefthook = "latest"
+
+# コード分析ツール
+rust = "latest" # similarity-tsインストール用
