@@ -6,7 +6,7 @@ type Props = {
 	siteInfo: SiteInfo;
 };
 
-export const Header: FC<Props> = ({ className = "", siteInfo }) => {
+export const TitleSection: FC<Props> = ({ className = "", siteInfo }) => {
 	return (
 		<div
 			className={`fixed inset-0 ${className} flex flex-col items-center justify-center md:mt-40 md:mr-[7vw] md:items-end md:justify-start`}
