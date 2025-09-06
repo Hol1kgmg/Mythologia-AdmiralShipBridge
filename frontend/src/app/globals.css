@@ -76,6 +76,11 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--z-index-1: 100;
+	--z-index-2: 200;
+	--z-index-3: 300;
+	--z-index-4: 400;
+	--z-index-5: 500;
 }
 
 .dark {
@@ -111,6 +116,26 @@
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.556 0 0);
 }
+
+@keyframes loop-slide {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-52.5rem);
+  }
+}
+
+@keyframes loop-slide-offset {
+  0% {
+    transform: translateY(-5.25rem);
+  }
+  100% {
+    transform: translateY(-57.75rem);
+  }
+}
+
+
 
 @layer base {
   * {

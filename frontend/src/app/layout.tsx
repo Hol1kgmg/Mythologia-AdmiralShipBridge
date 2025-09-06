@@ -22,8 +22,8 @@ const RootLayout = ({
 		<html lang="ja">
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<Header />
-				<div className="my-[10%] flex min-h-screen w-full justify-center px-6 md:px-0">
-					<div className="w-full max-w-7xl">{children}</div>
+				<div className="fixed inset-0 h-screen w-screen overflow-hidden bg-gray-900">
+					{children}
 				</div>
 			</body>
 		</html>
