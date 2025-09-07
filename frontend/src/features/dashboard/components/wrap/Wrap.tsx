@@ -3,9 +3,9 @@ import { Slideshow } from "@/features/dashboard/components/slideshow/Slideshow";
 import type { SlideshowProps } from "@/features/dashboard/types/props";
 
 export const Wrap: FC<SlideshowProps> = ({
-	hasImages = false,
 	isOffset = false,
 	className = "",
+	colsIndex = 1,
 }) => {
 	return (
 		<div
@@ -14,9 +14,9 @@ export const Wrap: FC<SlideshowProps> = ({
 			{[1, 2, 3].map((index) => (
 				<Slideshow
 					key={index}
-					hasImages={hasImages}
 					isOffset={isOffset}
 					className={className}
+					colsIndex={colsIndex}
 				/>
 			))}
 		</div>

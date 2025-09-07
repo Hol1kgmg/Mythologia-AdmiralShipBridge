@@ -3,7 +3,7 @@ export type ZindexProps = {
 };
 
 export type SlideshowProps = {
-	hasImages?: boolean;
 	isOffset?: boolean;
 	className?: string;
+	colsIndex?: number;
 };

@@ -122,16 +122,16 @@
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-52.5rem);
+    transform: translateY(-63rem);
   }
 }
 
 @keyframes loop-slide-offset {
   0% {
-    transform: translateY(-5.25rem);
+    transform: translateY(-6.3rem);
   }
   100% {
-    transform: translateY(-57.75rem);
+    transform: translateY(-69.3rem);
   }
 }
 

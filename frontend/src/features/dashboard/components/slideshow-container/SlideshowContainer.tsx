@@ -4,11 +4,11 @@ import type { ZindexProps } from "@/features/dashboard/types/props";
 
 export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
 	const wrapConfigs = [
-		{ hasImages: true, isOffset: false },
-		{ hasImages: false, isOffset: true },
-		{ hasImages: false, isOffset: false },
-		{ hasImages: false, isOffset: true },
-		{ hasImages: false, isOffset: false },
+		{ isOffset: false },
+		{ isOffset: true },
+		{ isOffset: false },
+		{ isOffset: true },
+		{ isOffset: false },
 	];
 
 	return (
@@ -17,10 +17,10 @@ export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
 		>
 			{wrapConfigs.map((config, index) => (
 				<Wrap
-					key={`wrap-${config.hasImages ? "images" : "empty"}-${config.isOffset ? "offset" : "normal"}-${index}`}
-					hasImages={config.hasImages}
+					key={`wrap-${config.isOffset ? "offset" : "normal"}-${index}`}
 					isOffset={config.isOffset}
 					className={className}
+					colsIndex={index}
 				/>
 			))}
 		</div>
