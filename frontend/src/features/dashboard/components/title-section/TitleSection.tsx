@@ -1,4 +1,6 @@
 import type { FC } from "react";
+import { Box } from "@/components/shared/box/Box";
+import { Typography } from "@/components/shared/typography/Typography";
 import type { SiteInfo } from "@/features/dashboard/types/types";
 
 type Props = {
@@ -38,6 +40,17 @@ export const TitleSection: FC<Props> = ({ className = "", siteInfo }) => {
 					{siteInfo.description}
 				</div>
 			</div>
+
+			<Box
+				className={`md:-bottom-[70%] absolute bottom-[20%] flex h-fit w-full justify-center`}
+			>
+				<Typography
+					variant={"p"}
+					className="animate-pulse-strong text-center md:text-2xl"
+				>
+					&mdash; &emsp; Touch Start &emsp; &mdash;
+				</Typography>
+			</Box>
 		</div>
 	);
 };

@@ -19,7 +19,7 @@ export const OpeningSoonDialog: FC<OpeningSoonDialogProps> = ({
 }) => {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-md">
+			<DialogContent className="max-w-[95%]">
 				<DialogHeader>
 					<DialogTitle className="flex justify-center">
 						Comming Soon
