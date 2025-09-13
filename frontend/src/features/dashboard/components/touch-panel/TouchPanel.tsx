@@ -1,36 +1,30 @@
 import type { FC } from "react";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
+import { useState } from "react";
+import { Box } from "@/components/shared/box/Box";
+import { OpeningSoonDialog } from "@/features/dashboard/components/opening-soon-dialog/OpeningSoonDialog";
 import type { ZindexProps } from "@/features/dashboard/types/props";
-import { debugColor } from "@/lib/utils";
+import { isFeatureEnabled } from "@/util/featureFlags";
 
 export const TouchPanel: FC<ZindexProps> = ({ className = "" }) => {
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	const handleClick = () => {
+		if (isFeatureEnabled("openingSoonDialog")) {
+			setIsDialogOpen(true);
+		}
+	};
+
 	return (
-		<Dialog>
-			<DialogTrigger asChild>
-				<div
-					className={`fixed inset-0 cursor-pointer ${debugColor()} ${className}`}
-				/>
-			</DialogTrigger>
-			<DialogContent className="max-w-md">
-				<DialogHeader>
-					<DialogTitle>モーダルタイトル</DialogTitle>
-					<DialogDescription>
-						モーダルの内容がここに表示されます。
-					</DialogDescription>
-				</DialogHeader>
-				<div className="mt-4">
-					<p className="text-muted-foreground text-sm">
-						このモーダルはRadix UI Dialogで実装されています。
-					</p>
-				</div>
-			</DialogContent>
-		</Dialog>
+		<>
+			<Box
+				className={`fixed inset-0 cursor-pointer ${className}`}
+				onClick={handleClick}
+				role="presentation"
+				aria-hidden="true"
+			/>
+			{isFeatureEnabled("openingSoonDialog") && (
+				<OpeningSoonDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+			)}
+		</>
 	);
 };

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { FC } from "react";
+import { Box } from "@/components/shared/box/Box";
 import { getContentCardPath, IMAGE_PATHS } from "@/lib/constants";
-import { isNullOrUndefined } from "@/util/type-util/typeUtil";
+import { isNullOrUndefined } from "@/util/typeUtil";
 
 type Props = {
 	colsIndex?: number;
@@ -36,7 +37,7 @@ export const ContentCard: FC<Props> = ({
 	const imagePath = getImagePath(colsIndex, rowsNum);
 
 	return (
-		<div
+		<Box
 			className={`relative h-40 w-[7.5rem] shrink-0 overflow-hidden rounded-lg border-2 border-gray-600 bg-gray-700 shadow-[0_4px_8px_rgba(0,0,0,0.3)] ${className}`}
 		>
 			<Image
@@ -46,6 +47,6 @@ export const ContentCard: FC<Props> = ({
 				className="object-cover"
 				sizes="120px"
 			/>
-		</div>
+		</Box>
 	);
 };

@@ -11,3 +11,9 @@ export type {
 	ApiState,
 	ResultType,
 } from "./baseTypes";
+
+export type {
+	FeatureFlagError,
+	FeatureFlagKey,
+	FeatureFlags,
+} from "./featureFlagTypes";
