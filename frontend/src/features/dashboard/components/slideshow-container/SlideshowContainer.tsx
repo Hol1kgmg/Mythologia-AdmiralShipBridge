@@ -16,7 +16,7 @@ export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
 	return (
 		<div
 			ref={containerRef}
-			className={`-left-[25%] absolute flex h-[150vh] w-fit origin-top-left rotate-[-25deg] transform-gpu gap-0 overflow-hidden md:left-[25%] ${className}`}
+			className={`-left-[25%] absolute flex h-[200vh] w-fit origin-top-left rotate-[-25deg] transform-gpu gap-0 overflow-hidden md:left-[25%] ${className}`}
 		>
 			{wrapConfigs.map((config, index) => (
 				<Wrap
