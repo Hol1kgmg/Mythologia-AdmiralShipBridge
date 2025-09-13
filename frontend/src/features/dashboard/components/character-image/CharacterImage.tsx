@@ -5,15 +5,13 @@ import { IMAGE_PATHS } from "@/lib/constants";
 
 export const CharacterImage: FC<ZindexProps> = ({ className = "" }) => {
 	return (
-		<div
-			className={`fixed inset-0 ${className} -translate-x-1/6 hidden translate-y-1/6 md:block`}
-		>
+		<div className={`${className}`}>
 			<Image
 				src={IMAGE_PATHS.NUN_MYTHOLOGIA}
 				alt="Nun Mythologia Character"
 				width={1108}
 				height={1168}
-				className={`relative h-[95vh] w-auto object-contain ${className}`}
+				className={`absolute bottom-[0%] left-[0%] hidden h-[80vh] max-h-[800px] w-fit max-w-[60%] object-contain md:block ${className}`}
 				priority
 			/>
 		</div>

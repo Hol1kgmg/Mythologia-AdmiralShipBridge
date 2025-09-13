@@ -9,9 +9,9 @@ export const Wrap: FC<SlideshowProps> = ({
 }) => {
 	return (
 		<div
-			className={`flex h-[80rem] w-[8.75rem] flex-col justify-center overflow-hidden ${className}`}
+			className={`flex h-full w-[8.75rem] flex-col justify-center overflow-hidden ${className}`}
 		>
-			{[1, 2, 3].map((index) => (
+			{[1, 2, 3, 4].map((index) => (
 				<Slideshow
 					key={index}
 					isOffset={isOffset}

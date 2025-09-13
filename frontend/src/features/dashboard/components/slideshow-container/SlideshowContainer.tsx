@@ -1,8 +1,10 @@
 import type { FC } from "react";
+import { useRef } from "react";
 import { Wrap } from "@/features/dashboard/components/wrap/Wrap";
 import type { ZindexProps } from "@/features/dashboard/types/props";
 
 export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const wrapConfigs = [
 		{ isOffset: false },
 		{ isOffset: true },
@@ -13,7 +15,8 @@ export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
 
 	return (
 		<div
-			className={`-translate-y-1/4 flex h-[80rem] w-full min-w-[50rem] rotate-[-25deg] transform-gpu gap-0 overflow-hidden md:translate-x-2/5 ${className}`}
+			ref={containerRef}
+			className={`-left-[25%] absolute flex h-[150vh] w-fit origin-top-left rotate-[-25deg] transform-gpu gap-0 overflow-hidden md:left-[25%] ${className}`}
 		>
 			{wrapConfigs.map((config, index) => (
 				<Wrap
