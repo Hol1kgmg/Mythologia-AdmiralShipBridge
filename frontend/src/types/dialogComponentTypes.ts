@@ -1,0 +1,4 @@
+export type DialogComponentProps = {
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+};

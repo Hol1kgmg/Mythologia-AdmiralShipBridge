@@ -7,13 +7,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import type { DialogComponentProps } from "@/types/dialogComponentTypes";
 
-type OpeningSoonDialogProps = {
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
-};
-
-export const OpeningSoonDialog: FC<OpeningSoonDialogProps> = ({
+export const OpeningSoonDialog: FC<DialogComponentProps> = ({
 	open,
 	onOpenChange,
 }) => {
