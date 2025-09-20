@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Box } from "@/components/shared/box/Box";
 import { OpeningSoonDialog } from "@/features/dashboard/components/opening-soon-dialog/OpeningSoonDialog";
-import type { ZindexProps } from "@/features/dashboard/types/props";
+import type { ZindexProps } from "@/types";
 import { isFeatureEnabled } from "@/util/featureFlags";
 
 export const TouchPanel: FC<ZindexProps> = ({ className = "" }) => {

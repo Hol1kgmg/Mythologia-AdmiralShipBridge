@@ -7,7 +7,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import type { DialogComponentProps } from "@/types/dialogComponentTypes";
+import type { DialogComponentProps } from "@/types";
 
 export const HelpDialog: FC<DialogComponentProps> = ({
 	open,

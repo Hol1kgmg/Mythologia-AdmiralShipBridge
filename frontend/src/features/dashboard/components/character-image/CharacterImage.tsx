@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { FC } from "react";
-import type { ZindexProps } from "@/features/dashboard/types/props";
 import { IMAGE_PATHS } from "@/lib/constants";
+import type { ZindexProps } from "@/types";
 
 export const CharacterImage: FC<ZindexProps> = ({ className = "" }) => {
 	return (

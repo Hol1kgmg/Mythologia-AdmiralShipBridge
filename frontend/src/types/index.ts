@@ -17,3 +17,8 @@ export type {
 	FeatureFlagKey,
 	FeatureFlags,
 } from "./featureFlagTypes";
+
+export type {
+	DialogComponentProps,
+	ZindexProps,
+} from "./propsType";

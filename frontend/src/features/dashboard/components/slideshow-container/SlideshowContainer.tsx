@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Wrap } from "@/features/dashboard/components/wrap/Wrap";
-import type { ZindexProps } from "@/features/dashboard/types/props";
+import type { ZindexProps } from "@/types";
 
 export const SlideshowContainer: FC<ZindexProps> = ({ className = "" }) => {
 	const wrapConfigs = [
