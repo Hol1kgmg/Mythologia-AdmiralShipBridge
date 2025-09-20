@@ -1,14 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export const Header = () => {
 	return (
 		<header className="fixed top-0 right-0 left-0 z-50">
 			<div className="flex items-center justify-between px-6 py-6">
 				<div>
-					<h1 className="font-medium text-2xl">
-						<Link href="/">Title</Link>
-					</h1>
+					<Link href="/">
+						<Image
+							src="/images/MythologiaASB_logo.png"
+							alt="Mythologia Admiral Ship Bridge"
+							width={1343}
+							height={472}
+							className="h-8 w-auto"
+							priority
+						/>
+					</Link>
 				</div>
 				<div className="flex items-center gap-5">
 					<Link href="/link1" className="text-gray-400 text-sm">
@@ -17,9 +24,13 @@ export const Header = () => {
 					<Link href="/link2" className="text-gray-400 text-sm">
 						Link2
 					</Link>
-					<Button size="sm" className="text-sm">
-						Button
-					</Button>
+					<Image
+						src="/svg/question.svg"
+						alt=""
+						width="20"
+						height="20"
+						className="[filter:brightness(0)_saturate(100%)_invert(58%)_sepia(8%)_saturate(571%)_hue-rotate(205deg)_brightness(97%)_contrast(86%)]"
+					/>
 				</div>
 			</div>
 		</header>
