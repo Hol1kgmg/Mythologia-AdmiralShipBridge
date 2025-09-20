@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { Geist_Mono } from "next/font/google";
 import { Header } from "@/components/shared/header/Header";
+import "./globals.css";
 
 const geistMono = Geist_Mono({
 	subsets: ["latin"],
@@ -22,7 +22,7 @@ const RootLayout = ({
 		<html lang="ja">
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<Header />
-				<div className="fixed inset-0 h-screen w-screen overflow-hidden bg-gray-900">
+				<div className="fixed inset-0 h-screen w-screen bg-gray-900">
 					{children}
 				</div>
 			</body>
