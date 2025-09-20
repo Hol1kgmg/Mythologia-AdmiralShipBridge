@@ -1,5 +1,5 @@
 export type SiteInfo = {
 	subtitle: string;
-	title: string;
+	titleImagePath: string;
 	description: string;
 };

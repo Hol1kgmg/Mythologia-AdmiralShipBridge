@@ -5,8 +5,8 @@ import { CoverScreen } from "@/components/shared/cover-screen/CoverScreen";
 import { CharacterImage } from "@/features/dashboard/components/character-image/CharacterImage";
 import { SlideshowContainer } from "@/features/dashboard/components/slideshow-container/SlideshowContainer";
 import { TitleSection } from "@/features/dashboard/components/title-section/TitleSection";
-import { TouchPanel } from "@/features/dashboard/components/touch-panel/TouchPanel";
 import type { SiteInfo } from "@/features/dashboard/types/types";
+import { TouchPanel } from "./touch-panel/TouchPanel";
 
 type Props = {
 	siteInfo?: SiteInfo;
@@ -15,7 +15,7 @@ type Props = {
 export const TopPage: FC<Props> = ({
 	siteInfo = {
 		subtitle: "非公式ファンサイト",
-		title: "Mythologia Admiral-Ship-Bridge",
+		titleImagePath: "/images/MythologiaASB_logo.png",
 		description: "カードデータベース＆デッキ構築",
 	},
 }) => {

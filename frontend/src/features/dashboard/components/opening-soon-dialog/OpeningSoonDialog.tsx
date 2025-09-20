@@ -30,7 +30,7 @@ export const OpeningSoonDialog: FC<OpeningSoonDialogProps> = ({
 						variant="p"
 						className="text-center text-md text-muted-foreground"
 					>
-						神託のメソロギアユーザーの皆様により良い体験を提供するため、準備中です。
+						『神託のメソロギア』ユーザーの皆様により良い体験を提供するため、準備中です。
 					</Typography>
 				</Box>
 			</DialogContent>
