@@ -21,11 +21,11 @@ export const TopPage: FC<Props> = ({
 }) => {
 	return (
 		<>
-			<SlideshowContainer className="z-[var(--z-index-1)]" />
-			<CoverScreen className="z-[var(--z-index-2)]" />
-			<CharacterImage className="z-[var(--z-index-3)]" />
-			<TitleSection className="z-[var(--z-index-4)]" siteInfo={siteInfo} />
-			<TouchPanel className="z-[var(--z-index-5)]" />
+			<SlideshowContainer zIndex="z-[var(--z-index-1)]" />
+			<CoverScreen zIndex="z-[var(--z-index-2)]" />
+			<CharacterImage zIndex="z-[var(--z-index-3)]" />
+			<TitleSection zIndex="z-[var(--z-index-4)]" siteInfo={siteInfo} />
+			<TouchPanel zIndex="z-[var(--z-index-5)]" />
 		</>
 	);
 };

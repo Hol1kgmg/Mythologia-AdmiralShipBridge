@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { AnimationWrapper } from "@/components/shared/animation-wrapper/AnimationWrapper";
+import { CoverScreen } from "@/components/shared/cover-screen/CoverScreen";
 import { Header } from "@/components/shared/header/Header";
 import "./globals.css";
 
@@ -23,7 +25,8 @@ const RootLayout = ({
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<Header />
 				<div className="fixed inset-0 h-screen w-screen bg-gray-900">
-					{children}
+					<CoverScreen />
+					<AnimationWrapper>{children}</AnimationWrapper>
 				</div>
 			</body>
 		</html>

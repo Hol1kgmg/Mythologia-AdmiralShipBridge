@@ -2,17 +2,19 @@ import Image from "next/image";
 import type { FC } from "react";
 import { Typography } from "@/components/shared/typography/Typography";
 import type { SiteInfo } from "@/features/dashboard/types/types";
+import type { Simplify, ZindexProps } from "@/types";
 
-type Props = {
-	className?: string;
-	siteInfo: SiteInfo;
-};
+type Props = Simplify<
+	ZindexProps & {
+		siteInfo: SiteInfo;
+	}
+>;
 
 const titleImageWidth = 1343;
 const titleImageHeight = 472;
 const titleImageScale = 1.3;
 
-export const TitleSection: FC<Props> = ({ className = "", siteInfo }) => {
+export const TitleSection: FC<Props> = ({ zIndex, siteInfo }) => {
 	const getFontStyle = (type: "subtitle" | "description") => {
 		const styles = {
 			subtitle: "font-medium text-2xl md:text-[clamp(1rem,min(3vw,4vh),2rem)]",
@@ -22,7 +24,7 @@ export const TitleSection: FC<Props> = ({ className = "", siteInfo }) => {
 	};
 	return (
 		<div
-			className={`absolute inset-0 flex flex-col items-center justify-center md:inset-auto md:top-[25%] md:right-[7vw] md:max-w-[65%] md:items-end md:justify-start ${className}`}
+			className={`absolute inset-0 flex flex-col items-center justify-center md:inset-auto md:top-[25%] md:right-[7vw] md:max-w-[65%] md:items-end md:justify-start ${zIndex}`}
 		>
 			<div className="text-center">
 				<div className={`mb-2.5 text-gray-300 ${getFontStyle("subtitle")}`}>

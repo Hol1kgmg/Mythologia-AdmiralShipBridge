@@ -20,5 +20,6 @@ export type {
 
 export type {
 	DialogComponentProps,
+	Simplify,
 	ZindexProps,
 } from "./propsType";

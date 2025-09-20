@@ -1,10 +1,10 @@
 import type { FC } from "react";
 import type { ZindexProps } from "@/types";
 
-export const CoverScreen: FC<ZindexProps> = ({ className = "" }) => {
+export const CoverScreen: FC<ZindexProps> = ({ zIndex = "" }) => {
 	return (
 		<div
-			className={`fixed inset-0 ${className} h-screen w-screen bg-[rgba(29,20,19,0.67)]`}
+			className={`fixed inset-0 ${zIndex} h-screen w-screen bg-[rgba(29,20,19,0.67)]`}
 		/>
 	);
 };

@@ -43,6 +43,7 @@
     --radius-xl: calc(var(--radius) + 4px);
     --animate-pulse-strong: pulse-strong 3s cubic-bezier(0.4, 0, 0.6, 1)
         infinite;
+    --animate-spin-strong: spin-strong 2s ease-in-out infinite;
 }
 
 :root {
@@ -144,6 +145,15 @@
     }
     50% {
         opacity: 0.3;
+    }
+}
+
+@keyframes spin-strong {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(1080deg);
     }
 }
 

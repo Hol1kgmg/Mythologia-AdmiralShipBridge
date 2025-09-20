@@ -5,7 +5,7 @@ import { OpeningSoonDialog } from "@/features/dashboard/components/opening-soon-
 import type { ZindexProps } from "@/types";
 import { isFeatureEnabled } from "@/util/featureFlags";
 
-export const TouchPanel: FC<ZindexProps> = ({ className = "" }) => {
+export const TouchPanel: FC<ZindexProps> = ({ zIndex = "" }) => {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const handleClick = () => {
@@ -17,7 +17,7 @@ export const TouchPanel: FC<ZindexProps> = ({ className = "" }) => {
 	return (
 		<>
 			<Box
-				className={`fixed inset-0 cursor-pointer ${className}`}
+				className={`fixed inset-0 cursor-pointer ${zIndex}`}
 				onClick={handleClick}
 				role="presentation"
 				aria-hidden="true"
