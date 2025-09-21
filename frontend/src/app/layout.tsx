@@ -25,6 +25,10 @@ const RootLayout = ({
 		<html lang="ja">
 			<head>
 				<link rel="manifest" href="/manifest.json" />
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1.0, user-scalable=no"
+				/>
 			</head>
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<OrientationGuide />

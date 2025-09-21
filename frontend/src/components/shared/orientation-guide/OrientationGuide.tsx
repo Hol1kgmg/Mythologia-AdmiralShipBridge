@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Typography } from "@/components/shared/typography/Typography";
 
 export const OrientationGuide = () => {
-	const [_isStandalone, setIsStandalone] = useState<boolean>(false);
 	const [showGuide, setShowGuide] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -21,16 +20,11 @@ export const OrientationGuide = () => {
 				return;
 			}
 
-			const standalone: boolean = window.matchMedia(
-				"(display-mode: standalone)",
-			).matches;
-
 			const isLandscape: boolean = window.matchMedia(
 				"(orientation: landscape)",
 			).matches;
 
-			setIsStandalone(standalone);
-			setShowGuide(isLandscape && !standalone);
+			setShowGuide(isLandscape);
 		};
 
 		checkOrientation();
