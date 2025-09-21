@@ -84,6 +84,7 @@
     --z-index-3: 300;
     --z-index-4: 400;
     --z-index-5: 500;
+    --z-index-max: 9999;
 }
 
 .dark {
@@ -156,6 +157,7 @@
         transform: rotate(1080deg);
     }
 }
+
 
 @layer base {
     * {
