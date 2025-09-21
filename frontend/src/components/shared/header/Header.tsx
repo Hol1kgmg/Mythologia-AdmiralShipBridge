@@ -19,7 +19,7 @@ export const Header = () => {
 					<div>
 						<Link href="/">
 							<Image
-								src="/images/MythologiaASB_logo.png"
+								src="/images/logo/MythologiaASB_logo.png"
 								alt="Mythologia Admiral Ship Bridge"
 								width={1343}
 								height={472}

@@ -15,7 +15,7 @@ type Props = {
 export const TopPage: FC<Props> = ({
 	siteInfo = {
 		subtitle: "非公式ファンサイト",
-		titleImagePath: "/images/MythologiaASB_logo.png",
+		titleImagePath: "/images/logo/MythologiaASB_logo.png",
 		description: "カードデータベース＆デッキ構築",
 	},
 }) => {
