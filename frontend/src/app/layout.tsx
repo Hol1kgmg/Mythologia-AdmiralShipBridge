@@ -13,11 +13,19 @@ const geistMono = Geist_Mono({
 
 // TODO: サイト設定は今後変更される可能性があります
 // 以下の項目は実装状況に合わせて更新してください：
-// 1. url - ドメイン変更時（本番・ステージング環境対応）
-// 2. ogImage, twitterImage - 画像ファイルのパス変更時
-// 3. description - 実装される機能に合わせて詳細化
-// 4. keywords - SEO戦略に合わせて調整
-// 5. verification.google - Google Search Console設定時
+// 1. description - 実装される機能に合わせて詳細化
+// 2. keywords - SEO戦略に合わせて調整
+// 3. verification.google - Google Search Console設定時
+
+// 環境に応じたベースURLを取得
+const getBaseUrl = (): string => {
+	// 開発環境では localhost を使用
+	if (process.env.NODE_ENV === "development") {
+		return "http://localhost:3000";
+	}
+	// ステージング・本番環境では環境変数を使用
+	return process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "https://localhost:3000";
+};
 
 // サイトの基本情報
 const siteConfig = {
@@ -25,8 +33,8 @@ const siteConfig = {
 	title: "神託のメソロギア - Admiral Ship Bridge",
 	description:
 		"神託のメソロギア（Mythologia）のカード情報データベースとデッキ構築をサポートする非公式Webアプリケーション。カード検索、デッキ構築ツールを提供します。",
-	url: "https://methologia-admiral-ship-bridge.com", // TODO: 環境別URL対応
-	ogImage: "https://methologia-admiral-ship-bridge.com/images/og-image.png", // TODO: 画像作成・配置後にパス更新
+	url: getBaseUrl(),
+	ogImage: `${getBaseUrl()}/images/og-image.png`,
 	// TODO: キーワードは実装機能・SEO戦略に合わせて調整
 	keywords: [
 		"神託のメソロギア", // コアキーワード
