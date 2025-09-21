@@ -22,6 +22,9 @@ const RootLayout = ({
 }>) => {
 	return (
 		<html lang="ja">
+			<head>
+				<link rel="manifest" href="/manifest.json" />
+			</head>
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<Header />
 				<div className="fixed inset-0 h-screen w-screen bg-gray-900">
