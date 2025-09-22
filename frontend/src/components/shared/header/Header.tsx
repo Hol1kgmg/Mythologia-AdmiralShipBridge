@@ -29,7 +29,7 @@ export const Header = () => {
 						</Link>
 					</div>
 					<div className="flex items-center gap-5">
-						<Link href="/link1" className="text-gray-400 text-sm">
+						<Link href="/entertainment-card" className="text-gray-400 text-sm">
 							Link1
 						</Link>
 						<Link href="/link2" className="text-gray-400 text-sm">

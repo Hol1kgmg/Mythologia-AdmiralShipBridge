@@ -11,8 +11,15 @@ export const IMAGE_PATHS = {
 	CARD_BACK_SIDE: `${IMAGE_BASE_PATH}/CardBackSide.jpg`,
 	NUN_MYTHOLOGIA: `${IMAGE_BASE_PATH}/Nun_Mythologia_image.png`,
 	CONTENT_CARDS: `${IMAGE_BASE_PATH}/content-cards`,
+	ENTERTAINMENT_CARDS: `${IMAGE_BASE_PATH}/entertainment-cards`,
 } as const;
 
 // ヘルパー関数
 export const getContentCardPath = (cardNumber: number): string =>
 	`${IMAGE_PATHS.CONTENT_CARDS}/ContentCard-${cardNumber}.jpg`;
+
+type EntertainmentCardType = "nun.gif" | "gogon.png" | "nekomata.gif";
+
+export const getEntertainmentCardPath = (
+	cardName: EntertainmentCardType,
+): string => `${IMAGE_PATHS.ENTERTAINMENT_CARDS}/EntertainmentCard-${cardName}`;
