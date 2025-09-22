@@ -6,7 +6,7 @@ const EntertainmentCardContainer = () => {
 		<div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600 p-8">
 			<div className="text-center">
 				<h1 className="mb-8 font-bold text-2xl text-white">
-					アニメカード - ゴゴン
+					アニメカード - ぬん
 				</h1>
 
 				<div className="perspective-1000 flex items-center justify-center">
@@ -19,7 +19,7 @@ const EntertainmentCardContainer = () => {
 						rotationLimit={60}
 					>
 						<CardWith3DEffects
-							imageSrc="/images/content-cards/entertainment-card/nun.gif"
+							imageSrc="/images/content-cards/entertainment-card/special_effect_card_nun.gif"
 							imageAlt="アニメカード - ゴゴン"
 							width={460}
 							height={575}
