@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+// TODO: utilsディレクトリへ移動
+
 export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
 };

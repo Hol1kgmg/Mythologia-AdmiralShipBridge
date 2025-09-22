@@ -1,4 +1,3 @@
-import LightRays from "@/components/shared/light-rays/LightRays";
 import { getEntertainmentCardPath } from "@/lib/constants";
 import CardWith3DEffects from "./card-with-3d-effects/CardWith3DEffects";
 import DraggableCard3D from "./draggable-card-3d/DraggableCard3D";
@@ -6,31 +5,6 @@ import DraggableCard3D from "./draggable-card-3d/DraggableCard3D";
 const EntertainmentCardContainer = () => {
 	return (
 		<>
-			<div
-				style={{
-					position: "fixed",
-					top: 0,
-					left: 0,
-					width: "100vw",
-					height: "100vh",
-					// zIndex: -1
-				}}
-			>
-				<LightRays
-					raysOrigin="top-center"
-					raysColor="#ffffff"
-					raysSpeed={1.0}
-					lightSpread={2.0}
-					rayLength={2.0}
-					// pulsating={true}
-					fadeDistance={2}
-					saturation={1}
-					followMouse={false}
-					mouseInfluence={1.0}
-					noiseAmount={0}
-					distortion={0}
-				/>
-			</div>
 			<div className="relative z-10 flex min-h-screen items-center justify-center">
 				<div className="relative z-10 text-center">
 					<h1 className="mb-8 font-bold text-2xl text-white">

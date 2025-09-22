@@ -22,4 +22,4 @@ export type {
 	DialogComponentProps,
 	Simplify,
 	ZindexProps,
-} from "./propsType";
+} from "./propsTypes";
