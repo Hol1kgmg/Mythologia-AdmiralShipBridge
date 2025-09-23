@@ -1,8 +1,8 @@
 import CardLayer from "@/features/entertainment-card/components/card-layer/CardLayer";
-import { getContainerStyle } from "@/features/entertainment-card/util/cardEffectsPresenter";
+import { getContainerStyle } from "@/features/entertainment-card/utils/cardEffectsPresenter";
 
 type CardWith3DEffectsProps = {
-	imageSrc: string;
+	imageSrc: URL;
 	imageAlt: string;
 	className?: string;
 };

@@ -3,7 +3,7 @@ import CardWith3DEffects from "@/features/entertainment-card/components/card-wit
 import DraggableCard3D from "@/features/entertainment-card/components/draggable-card-3d/DraggableCard3D";
 
 type DraggableCardViewProps = {
-	imageSrc: string;
+	imageSrc: URL;
 	imageAlt: string;
 	onBackgroundClick: () => void;
 	dragSpeed?: number;

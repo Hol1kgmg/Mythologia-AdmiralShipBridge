@@ -1,15 +1,16 @@
 import Image from "next/image";
-import type { CardLayerType } from "@/features/entertainment-card/util/cardEffectsPresenter";
+import type { CardLayerType } from "@/features/entertainment-card/utils/cardEffectsPresenter";
 import {
 	createCardLayerStyle,
 	getImageClasses,
 	getLayerBaseClasses,
 	isGifFile,
-} from "@/features/entertainment-card/util/cardEffectsPresenter";
+} from "@/features/entertainment-card/utils/cardEffectsPresenter";
+import { getImageSrc } from "../../utils/imageUtils";
 
 type CardLayerProps = {
 	layerType: CardLayerType;
-	imageSrc: string;
+	imageSrc: URL;
 	imageAlt: string;
 	children?: React.ReactNode;
 };
@@ -23,16 +24,18 @@ const CardLayer = ({
 	const layerStyle = createCardLayerStyle(layerType);
 	const isMainLayer = layerType === "front";
 
+	const src = getImageSrc(imageSrc);
+
 	return (
 		<div className={getLayerBaseClasses()} style={layerStyle}>
 			<Image
-				src={imageSrc}
+				src={src}
 				alt={isMainLayer ? imageAlt : ""}
-				className={getImageClasses(isMainLayer, imageSrc)}
+				className={getImageClasses(isMainLayer, src)}
 				draggable={false}
 				fill
 				priority
-				unoptimized={isGifFile(imageSrc)}
+				unoptimized={isGifFile(src)}
 			/>
 			{children}
 		</div>

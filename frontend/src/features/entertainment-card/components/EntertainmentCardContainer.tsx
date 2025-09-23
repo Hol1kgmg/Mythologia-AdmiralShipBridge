@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
+import { CardImageView } from "@/components/shared/card-image-view/CardImageView";
 import {
 	EntertainmentCardName,
 	getEntertainmentCardPath,
@@ -24,7 +24,7 @@ const EntertainmentCardContainer = () => {
 					</h1>
 					<div className="perspective-1000 flex items-center justify-center">
 						<button type="button" onClick={handleClick}>
-							<Image
+							<CardImageView
 								src={getEntertainmentCardPath(EntertainmentCardName.Nekomata)}
 								alt="moving card"
 								width={200}

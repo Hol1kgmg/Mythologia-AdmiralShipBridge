@@ -30,4 +30,8 @@ type EntertainmentCardType =
 
 export const getEntertainmentCardPath = (
 	cardName: EntertainmentCardType,
-): string => `${IMAGE_PATHS.ENTERTAINMENT_CARDS}/EntertainmentCard-${cardName}`;
+): URL =>
+	new URL(
+		`${IMAGE_PATHS.ENTERTAINMENT_CARDS}/EntertainmentCard-${cardName}`,
+		import.meta.url,
+	);
