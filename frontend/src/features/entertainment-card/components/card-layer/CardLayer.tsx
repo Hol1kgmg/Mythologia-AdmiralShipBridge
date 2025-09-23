@@ -11,8 +11,6 @@ type CardLayerProps = {
 	layerType: CardLayerType;
 	imageSrc: string;
 	imageAlt: string;
-	width: number;
-	height: number;
 	children?: React.ReactNode;
 };
 
@@ -20,8 +18,6 @@ const CardLayer = ({
 	layerType,
 	imageSrc,
 	imageAlt,
-	width,
-	height,
 	children,
 }: CardLayerProps) => {
 	const layerStyle = createCardLayerStyle(layerType);
@@ -34,8 +30,7 @@ const CardLayer = ({
 				alt={isMainLayer ? imageAlt : ""}
 				className={getImageClasses(isMainLayer, imageSrc)}
 				draggable={false}
-				width={width}
-				height={height}
+				fill
 				priority
 				unoptimized={isGifFile(imageSrc)}
 			/>

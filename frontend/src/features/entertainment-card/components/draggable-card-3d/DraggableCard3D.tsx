@@ -1,11 +1,8 @@
-"use client";
 import { createDraggable, utils } from "animejs";
 import { type ReactNode, useEffect, useRef } from "react";
 
 type DraggableCard3DProps = {
 	children: ReactNode;
-	width: string;
-	height: string;
 	dragSpeed?: number;
 	releaseStiffness?: number;
 	containerPadding?: number;
@@ -14,8 +11,6 @@ type DraggableCard3DProps = {
 
 const DraggableCard3D = ({
 	children,
-	width,
-	height,
 	dragSpeed = 0.4,
 	releaseStiffness = 20,
 	containerPadding = 50,
@@ -61,11 +56,9 @@ const DraggableCard3D = ({
 	return (
 		<div
 			ref={cardRef}
-			className="square relative cursor-grab active:cursor-grabbing"
+			className="relative h-full w-full cursor-grab active:cursor-grabbing"
 			style={{
 				transformStyle: "preserve-3d",
-				width,
-				height,
 			}}
 		>
 			{children}

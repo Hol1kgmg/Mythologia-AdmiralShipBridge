@@ -18,7 +18,15 @@ export const IMAGE_PATHS = {
 export const getContentCardPath = (cardNumber: number): string =>
 	`${IMAGE_PATHS.CONTENT_CARDS}/ContentCard-${cardNumber}.jpg`;
 
-type EntertainmentCardType = "nun.gif" | "gogon.png" | "nekomata.gif";
+// entertaiment-card用の定数
+export const EntertainmentCardName = {
+	Nun: "nun.gif",
+	Gogon: "gogon.gif",
+	Nekomata: "nekomata.gif",
+} as const;
+
+type EntertainmentCardType =
+	(typeof EntertainmentCardName)[keyof typeof EntertainmentCardName];
 
 export const getEntertainmentCardPath = (
 	cardName: EntertainmentCardType,

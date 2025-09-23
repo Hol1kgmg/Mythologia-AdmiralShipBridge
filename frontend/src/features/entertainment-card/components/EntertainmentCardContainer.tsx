@@ -1,43 +1,53 @@
-import { getEntertainmentCardPath } from "@/lib/constants";
-import CardWith3DEffects from "./card-with-3d-effects/CardWith3DEffects";
-import DraggableCard3D from "./draggable-card-3d/DraggableCard3D";
+"use client";
+import Image from "next/image";
+import { useState } from "react";
+import {
+	EntertainmentCardName,
+	getEntertainmentCardPath,
+} from "@/lib/constants";
+import DraggableCardView from "./draggable-card-view/DraggableCardView";
 
 const EntertainmentCardContainer = () => {
+	const [isCardVisible, setIsCardVisible] = useState(false);
+
+	const handleClick = () => {
+		setIsCardVisible(!isCardVisible);
+	};
+
 	return (
-		<>
-			<div className="relative z-10 flex min-h-screen items-center justify-center">
-				<div className="relative z-10 text-center">
+		// z-[var(--z-index-1)]
+		<div className="relative flex min-h-screen items-center justify-center">
+			{!isCardVisible && (
+				<div className="text-center">
 					<h1 className="mb-8 font-bold text-2xl text-white">
 						アニメカード - ぬん
 					</h1>
-
 					<div className="perspective-1000 flex items-center justify-center">
-						<DraggableCard3D
-							width="230px"
-							height="287.5px"
-							dragSpeed={0.4}
-							releaseStiffness={20}
-							containerPadding={50}
-							rotationLimit={60}
-						>
-							<CardWith3DEffects
-								imageSrc={getEntertainmentCardPath("nun.gif")}
-								imageAlt="moving card"
-								width={460}
-								height={575}
+						<button type="button" onClick={handleClick}>
+							<Image
+								src={getEntertainmentCardPath(EntertainmentCardName.Nekomata)}
+								alt="moving card"
+								width={200}
+								height={200}
 							/>
-						</DraggableCard3D>
+						</button>
 					</div>
-
 					<p className="mt-8 text-sm text-white opacity-80">
-						カードをドラッグして3D回転させてみてください
+						カードをクリックして3D回転させてみてください
 					</p>
 				</div>
-			</div>
-			{/*<div className="relative flex min-h-screen items-center justify-center overflow-hidden">
-
-		</div>*/}
-		</>
+			)}
+			{/* z-[var(--z-index-2)]*/}
+			{isCardVisible && (
+				<div className="absolute inset-0 z-50">
+					<DraggableCardView
+						imageSrc={getEntertainmentCardPath(EntertainmentCardName.Nekomata)}
+						imageAlt="moving card"
+						onBackgroundClick={handleClick}
+					/>
+				</div>
+			)}
+		</div>
 	);
 };
 
