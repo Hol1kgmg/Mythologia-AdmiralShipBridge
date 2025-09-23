@@ -62,14 +62,8 @@ export const metadata: Metadata = {
 	},
 	description: siteConfig.description,
 	keywords: siteConfig.keywords,
-	authors: [
-		{
-			name: "Mythologia Admiral Ship Bridge Community",
-			url: "https://github.com/Hol1kgmg/Mythologia_AdmiralsShipBridge",
-		},
-	],
-	creator: "Mythologia Admiral Ship Bridge Community",
-	publisher: "Mythologia Admiral Ship Bridge Community",
+	creator: "Mythologia Fan Community",
+	publisher: "Mythologia Fan Community",
 	formatDetection: {
 		email: false,
 		address: false,
@@ -105,9 +99,8 @@ export const metadata: Metadata = {
 			},
 		],
 	},
-	// TODO: 検索エンジン検証コードは実際の設定時に更新
 	verification: {
-		google: "verification-code-here", // TODO: Google Search Console設定時に実際のコードに変更
+		google: "HRAp0G5wBvo6hIaPdCfsfNMo_LZ65Dj-vPlBmZ0go_k",
 		// other: {
 		//   'msvalidate.01': 'bing-verification-code-here', // TODO: Bing Webmaster Tools設定時
 		// },
