@@ -42,15 +42,8 @@ pre-commit:
     similarity-check:
       root: "frontend/"
       glob: "*.{js,ts,tsx,jsx}"
-      run: |
-        echo "🔍 Checking code similarity..."
-        if command -v mise >/dev/null 2>&1 && mise exec -- which similarity-ts >/dev/null 2>&1; then
-          mise exec -- similarity-ts {staged_files} --threshold=0.8 || echo "⚠️ Similar code detected - consider refactoring"
-        elif command -v similarity-ts >/dev/null 2>&1; then
-          similarity-ts {staged_files} --threshold=0.8 || echo "⚠️ Similar code detected - consider refactoring"
-        else
-          echo "ℹ️ Similarity tool not found. Install with: task install:similarity"
-        fi
+      run: similarity-ts . --fail-on-duplicates --print --threshold 0.85 --min-lines 5 --exclude "node_modules" --exclude ".next" --exclude "**/*.test.*" --exclude "**/*.stories.*"
+      fail_text: "❌ Code similarity detected! Please refactor duplicate code before committing."
 
 # pushのレスポンスが遅くなるのでコメントアウト
 # pre-push:

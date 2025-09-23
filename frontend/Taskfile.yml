@@ -70,7 +70,11 @@ tasks:
     desc: "Build Storybook"
     cmds:
       - bun run build-storybook
-
+      
+  similarity-ts:
+    desc: "Start similary-ts"
+    cmds: 
+      - similarity-ts . --fail-on-duplicates --print --threshold 0.85 --min-lines 5 --exclude "node_modules" --exclude ".next" --exclude "**/*.test.*" --exclude "**/*.stories.*"
   # Integrated quality checks
   check:all:
     desc: "Run all code quality checks (check, format, typecheck)"
@@ -78,6 +82,7 @@ tasks:
       - task check
       - task format
       - task typecheck
+      - task similarity-ts
       - echo "✅ All code quality checks completed"
 
   fix:all:

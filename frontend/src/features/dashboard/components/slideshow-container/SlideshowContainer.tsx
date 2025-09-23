@@ -1,0 +1,28 @@
+import type { FC } from "react";
+import { Wrap } from "@/features/dashboard/components/wrap/Wrap";
+import type { ZindexProps } from "@/types";
+
+export const SlideshowContainer: FC<ZindexProps> = ({ zIndex = "" }) => {
+	const wrapConfigs = [
+		{ isOffset: false },
+		{ isOffset: true },
+		{ isOffset: false },
+		{ isOffset: true },
+		{ isOffset: false },
+	];
+
+	return (
+		<div
+			className={`-left-[25%] absolute flex h-[200vh] w-fit origin-top-left rotate-[-25deg] transform-gpu gap-0 overflow-hidden md:left-[25%] ${zIndex}`}
+		>
+			{wrapConfigs.map((config, index) => (
+				<Wrap
+					key={`wrap-${config.isOffset ? "offset" : "normal"}-${index}`}
+					isOffset={config.isOffset}
+					className={zIndex}
+					colsIndex={index}
+				/>
+			))}
+		</div>
+	);
+};

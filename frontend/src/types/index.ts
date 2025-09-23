@@ -11,3 +11,15 @@ export type {
 	ApiState,
 	ResultType,
 } from "./baseTypes";
+
+export type {
+	FeatureFlagError,
+	FeatureFlagKey,
+	FeatureFlags,
+} from "./featureFlagTypes";
+
+export type {
+	DialogComponentProps,
+	Simplify,
+	ZindexProps,
+} from "./propsTypes";
