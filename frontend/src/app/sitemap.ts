@@ -7,7 +7,7 @@ import type { MetadataRoute } from "next";
 // 3. lastModified の動的更新（将来的にはCMSやDBから取得）
 
 export default function sitemap(): MetadataRoute.Sitemap {
-	const baseUrl = "https://methologia-admiral-ship-bridge.com";
+	const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL || "";
 	const lastModified = new Date();
 
 	return [
@@ -16,6 +16,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		// ダッシュボードページ
 		{
 			url: baseUrl,
+			lastModified,
+			changeFrequency: "weekly",
+			priority: 1.0,
+		},
+
+		// 3Dカード操作demoページ
+		{
+			url: `${baseUrl}/entertainment-card`,
 			lastModified,
 			changeFrequency: "weekly",
 			priority: 1.0,
