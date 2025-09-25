@@ -62,7 +62,6 @@ const EntertainmentCardContainer = () => {
 								cardImageInfo={EntertainmentCardDataList[0]}
 								width={200}
 								height={200}
-								isVisible={isVisible}
 								onLoad={handleImageLoad}
 								maxHeightPercent={30}
 							/>

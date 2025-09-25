@@ -8,7 +8,6 @@ type Props = Simplify<
 	CardImageLoadProps & {
 		width: number;
 		height: number;
-		isVisible?: boolean;
 		maxWidthPercent?: number;
 		maxHeightPercent?: number;
 		priority?: boolean;
@@ -42,14 +41,11 @@ export const CardImageView: FC<Props> = ({
 	height,
 	onLoad = () => {},
 	onError = () => {},
-	isVisible = true,
 	maxWidthPercent = 80,
 	maxHeightPercent = 80,
 	priority = false,
 }) => {
 	const [hasError, setHasError] = useState(false);
-
-	const visibilityClass = isVisible ? "visible" : "invisible";
 
 	const handleError = () => {
 		setHasError(true);
@@ -60,7 +56,7 @@ export const CardImageView: FC<Props> = ({
 	if (hasError) {
 		return (
 			<div
-				className={`bg-gray-500 ${visibilityClass}`}
+				className="bg-gray-500"
 				style={{ height: `${height}px`, width: `${width}px` }}
 			/>
 		);
@@ -72,7 +68,6 @@ export const CardImageView: FC<Props> = ({
 		<Image
 			src={cardImageInfo.src}
 			alt={cardImageInfo.alt}
-			className={`${visibilityClass}`}
 			width={width}
 			height={height}
 			style={{
