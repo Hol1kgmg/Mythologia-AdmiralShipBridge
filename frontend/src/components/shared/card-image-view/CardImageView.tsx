@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import { type FC, useState } from "react";
-import { getImageSrc } from "@/features/entertainment-card/utils/imageUtils";
+import type { CardImageLoadProps, Simplify } from "@/types";
 
-type Props = {
-	src: URL;
-	alt: string;
-	width: number;
-	height: number;
-};
+type Props = Simplify<
+	CardImageLoadProps & {
+		width: number;
+		height: number;
+		isVisible?: boolean;
+		maxWidthPercent?: number;
+		maxHeightPercent?: number;
+	}
+>;
 
 /**
  * CardImageView - 画像表示とエラーハンドリングを行うコンポーネント
@@ -32,15 +35,30 @@ type Props = {
  * }
  */
 
-export const CardImageView: FC<Props> = ({ src, alt, width, height }) => {
+export const CardImageView: FC<Props> = ({
+	cardImageInfo,
+	width,
+	height,
+	onLoad = () => {},
+	onError = () => {},
+	isVisible = true,
+	maxWidthPercent = 80,
+	maxHeightPercent = 80,
+}) => {
 	const [hasError, setHasError] = useState(false);
 
-	const imageSrc = getImageSrc(src);
+	const visibilityClass = isVisible ? "visible" : "invisible";
 
+	const handleError = () => {
+		setHasError(true);
+		onError();
+	};
+
+	// TODO: カードサイズに合うようにサイズを調整
 	if (hasError) {
 		return (
 			<div
-				className="bg-gray-500"
+				className={`bg-gray-500 ${visibilityClass}`}
 				style={{ height: `${height}px`, width: `${width}px` }}
 			/>
 		);
@@ -48,11 +66,19 @@ export const CardImageView: FC<Props> = ({ src, alt, width, height }) => {
 
 	return (
 		<Image
-			src={imageSrc}
-			alt={alt}
+			src={cardImageInfo.src}
+			alt={cardImageInfo.alt}
+			className={`${visibilityClass}`}
 			width={width}
 			height={height}
-			onError={() => setHasError(true)}
+			style={{
+				maxWidth: `${maxWidthPercent}vw`,
+				maxHeight: `${maxHeightPercent}vh`,
+				width: "auto",
+				height: "auto",
+			}}
+			onLoad={onLoad}
+			onError={handleError}
 		/>
 	);
 };
