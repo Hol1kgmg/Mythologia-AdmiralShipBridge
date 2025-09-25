@@ -31,7 +31,8 @@ const EntertainmentCardContainer = () => {
 	// TODO: 表示するカードをmapで全部表示にするときにallLoadedも変える
 	// const allLoaded = loadedImageCount === EntertainmentCardDataList.length;
 	const allLoaded = loadedImageCount === 1;
-	const isVisible = allLoaded && !isDragCardVisible;
+	const showMainCard = allLoaded && !isDragCardVisible;
+	const showDragCard = allLoaded && isDragCardVisible;
 
 	const handleClick = () => {
 		setIsDragCardVisible(!isDragCardVisible);
@@ -51,7 +52,7 @@ const EntertainmentCardContainer = () => {
 			{/* メインコンテンツ */}
 			<div className="relative flex min-h-screen items-center justify-center">
 				<div
-					className={`z-[var(--z-index-1)] text-center ${isVisible ? "visible" : "invisible"}`}
+					className={`z-[var(--z-index-1)] text-center ${showMainCard ? "visible" : "invisible"}`}
 				>
 					<h1 className="mb-8 font-bold text-2xl text-white">
 						アニメカード - ぬん
@@ -74,7 +75,7 @@ const EntertainmentCardContainer = () => {
 
 				{/* z-[var(--z-index-2)]*/}
 				<div
-					className={`absolute inset-0 z-[var(--z-index-2)] ${!isVisible ? "visible" : "invisible"}`}
+					className={`absolute inset-0 z-[var(--z-index-2)] ${showDragCard ? "visible" : "invisible"}`}
 				>
 					<DraggableCardView
 						cardImageInfo={EntertainmentCardDataList[0]}
