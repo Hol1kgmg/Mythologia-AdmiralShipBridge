@@ -11,6 +11,7 @@ type Props = Simplify<
 		isVisible?: boolean;
 		maxWidthPercent?: number;
 		maxHeightPercent?: number;
+		priority?: boolean;
 	}
 >;
 
@@ -44,6 +45,7 @@ export const CardImageView: FC<Props> = ({
 	isVisible = true,
 	maxWidthPercent = 80,
 	maxHeightPercent = 80,
+	priority = false,
 }) => {
 	const [hasError, setHasError] = useState(false);
 
@@ -64,6 +66,8 @@ export const CardImageView: FC<Props> = ({
 		);
 	}
 
+	const isGif = cardImageInfo.src.toLowerCase().includes(".gif");
+
 	return (
 		<Image
 			src={cardImageInfo.src}
@@ -77,6 +81,8 @@ export const CardImageView: FC<Props> = ({
 				width: "auto",
 				height: "auto",
 			}}
+			unoptimized={isGif}
+			priority={priority}
 			onLoad={onLoad}
 			onError={handleError}
 		/>
