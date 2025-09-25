@@ -19,6 +19,10 @@ RUN bun install --frozen-lockfile --production
 FROM base AS builder
 WORKDIR /app
 
+# Railway Variables を ARG で受け取る
+ARG API_BASE_URL
+ENV API_BASE_URL=$API_BASE_URL
+
 # すべての依存関係をインストール
 COPY package.json bun.lockb* ./
 RUN bun install --frozen-lockfile
