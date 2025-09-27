@@ -6,6 +6,7 @@ type CardWith3DEffectsProps = Simplify<
 	CardImageLoadProps & {
 		className?: string;
 		rotationX?: number;
+		rotationY?: number;
 	}
 >;
 
@@ -13,21 +14,46 @@ const CardWith3DEffects = ({
 	cardImageInfo,
 	className = "",
 	rotationX = 0,
+	rotationY = 0,
 }: CardWith3DEffectsProps) => {
-	// rotationX角度に基づいてbrightness filterを計算（下向きの時のみ）
-	const calculateBrightnessFilter = (rotationX: number): string | undefined => {
-		// rotationXが正の値（下向き）の時のみ暗くする
-		if (rotationX <= 0) return undefined;
-
-		// 0度から60度までの範囲で、1.0から0.4まで線形補間（より暗く）
+	// rotationX・rotationY角度に基づいてbrightness filterを計算
+	const calculateBrightnessFilter = (
+		rotationX: number,
+		rotationY: number,
+	): string | undefined => {
 		const maxRotation = 60;
-		const minBrightness = 0.4; // 最も暗い時の明度
-		const normalizedRotation = Math.min(rotationX, maxRotation) / maxRotation;
-		const brightness = 1.0 - normalizedRotation * (1.0 - minBrightness);
-		return `brightness(${brightness})`;
+		let brightness = 1.0; // 基準明度
+
+		// X軸の影響（上下の傾き）
+		if (rotationX > 0) {
+			// 下向きの時：暗くする（1.0 → 0.4）
+			const minBrightness = 0.4;
+			const normalizedRotation = Math.min(rotationX, maxRotation) / maxRotation;
+			brightness *= 1.0 - normalizedRotation * (1.0 - minBrightness);
+		} else if (rotationX < 0) {
+			// 上向きの時：明るくする（1.0 → 1.2）
+			const maxBrightness = 1.2;
+			const normalizedRotation =
+				Math.min(Math.abs(rotationX), maxRotation) / maxRotation;
+			brightness *= 1.0 + normalizedRotation * (maxBrightness - 1.0);
+		}
+
+		// Y軸の影響（左右の傾き）- より控えめな効果
+		if (Math.abs(rotationY) > 0) {
+			const normalizedRotation =
+				Math.min(Math.abs(rotationY), maxRotation) / maxRotation;
+			// 左右に傾けると少し暗くなる（サイドライティング効果）
+			const sideEffect = 0.8; // 最大で10%暗くなる
+			brightness *= 1.0 - normalizedRotation * (1.0 - sideEffect);
+		}
+
+		// 基準明度(1.0)と変わらない場合はfilterなし
+		return Math.abs(brightness - 1.0) > 0.01
+			? `brightness(${brightness})`
+			: undefined;
 	};
 
-	const brightnessFilter = calculateBrightnessFilter(rotationX);
+	const brightnessFilter = calculateBrightnessFilter(rotationX, rotationY);
 
 	return (
 		<div className={`relative ${className}`} style={getContainerStyle()}>
