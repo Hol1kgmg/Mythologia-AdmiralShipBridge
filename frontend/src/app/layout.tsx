@@ -32,7 +32,7 @@ const getBaseUrl = (): string => {
 // サイトの基本情報
 const siteConfig = {
 	name: "神託のメソロギア - 非公式ファンサイト",
-	title: "神託のメソロギア - Admiral Ship Bridge",
+	title: "Mythologia - Admiral Ship Bridge",
 	description:
 		"神託のメソロギア（Mythologia）のカード情報データベースとデッキ構築をサポートする非公式Webアプリケーション。カード検索、デッキ構築ツールを提供します。",
 	url: getBaseUrl(),
