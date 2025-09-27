@@ -68,14 +68,14 @@ export const RotationCardArea: FC<Props> = ({
 
 			<Typography
 				variant={"p"}
-				className="-top-[15vh] absolute h-full w-full text-4xl"
+				className="-top-[15vh] pointer-events-none absolute h-full w-full text-4xl"
 			>
 				{`${centerCard.title}`}
 			</Typography>
 			{shouldShake && (
 				<Typography
 					variant={"p"}
-					className="-top-[10vh] absolute h-full w-full text-red-500 text-xl"
+					className="-top-[10vh] pointer-events-none absolute h-full w-full text-red-500 text-xl"
 				>
 					これ以上回せません
 				</Typography>
