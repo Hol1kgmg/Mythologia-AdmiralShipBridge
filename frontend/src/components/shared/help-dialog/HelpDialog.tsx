@@ -7,6 +7,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { EntertainmentCardHelpContainer } from "@/features/entertainment-card/components/entertainment-card-help-container/EntertainmentCardHelpContainer";
 import type { DialogComponentProps } from "@/types";
 
 export const HelpDialog: FC<DialogComponentProps> = ({
@@ -19,6 +20,8 @@ export const HelpDialog: FC<DialogComponentProps> = ({
 		switch (pathname) {
 			case "/":
 				return <SiteHelpContainer />;
+			case "/entertainment-card":
+				return <EntertainmentCardHelpContainer />;
 			default:
 				return <SiteHelpContainer />;
 		}

@@ -4,40 +4,31 @@ import {
 	createCardLayerStyle,
 	getImageClasses,
 	getLayerBaseClasses,
-	isGifFile,
 } from "@/features/entertainment-card/utils/cardEffectsPresenter";
-import { getImageSrc } from "../../utils/imageUtils";
+import type { CardImageLoadProps, Simplify } from "@/types";
 
-type CardLayerProps = {
-	layerType: CardLayerType;
-	imageSrc: URL;
-	imageAlt: string;
-	children?: React.ReactNode;
-};
+type CardLayerProps = Simplify<
+	CardImageLoadProps & {
+		layerType: CardLayerType;
+		filter?: string;
+	}
+>;
 
-const CardLayer = ({
-	layerType,
-	imageSrc,
-	imageAlt,
-	children,
-}: CardLayerProps) => {
+const CardLayer = ({ layerType, cardImageInfo, filter }: CardLayerProps) => {
 	const layerStyle = createCardLayerStyle(layerType);
 	const isMainLayer = layerType === "front";
-
-	const src = getImageSrc(imageSrc);
 
 	return (
 		<div className={getLayerBaseClasses()} style={layerStyle}>
 			<Image
-				src={src}
-				alt={isMainLayer ? imageAlt : ""}
-				className={getImageClasses(isMainLayer, src)}
+				src={cardImageInfo.src}
+				alt={isMainLayer ? cardImageInfo.alt : ""}
+				className={getImageClasses(isMainLayer, cardImageInfo.src)}
+				style={filter ? { filter } : undefined}
 				draggable={false}
 				fill
 				priority
-				unoptimized={isGifFile(src)}
 			/>
-			{children}
 		</div>
 	);
 };

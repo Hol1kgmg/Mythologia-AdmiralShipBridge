@@ -1,53 +1,107 @@
 "use client";
+
 import { useState } from "react";
-import { CardImageView } from "@/components/shared/card-image-view/CardImageView";
+import { LoadingAnimation } from "@/components/shared/loading-animation/LoadingAnimation";
+import { useCardImage, useVisibleCardImages } from "@/hooks/useCardImage";
 import {
 	EntertainmentCardName,
 	getEntertainmentCardPath,
 } from "@/lib/constants";
+import type { CardImageInfo } from "@/types/cardDataTypes";
 import DraggableCardView from "./draggable-card-view/DraggableCardView";
+import { RotationCardArea } from "./rotation-cards-area/RotationCardArea";
+
+const EntertainmentCardDataList: CardImageInfo[] = [
+	{
+		id: 1,
+		title: EntertainmentCardName.Nekomata.label,
+		src: getEntertainmentCardPath(EntertainmentCardName.Nekomata.file),
+		alt: EntertainmentCardName.Nekomata.file,
+	},
+	{
+		id: 2,
+		title: EntertainmentCardName.Nun.label,
+		src: getEntertainmentCardPath(EntertainmentCardName.Nun.file),
+		alt: EntertainmentCardName.Nun.file,
+	},
+	{
+		id: 3,
+		title: EntertainmentCardName.Gogon.label,
+		src: getEntertainmentCardPath(EntertainmentCardName.Gogon.file),
+		alt: EntertainmentCardName.Gogon.file,
+	},
+];
 
 const EntertainmentCardContainer = () => {
-	const [isCardVisible, setIsCardVisible] = useState(false);
+	const [isDragCardVisible, setIsDragCardVisible] = useState(false);
+	const [dragCardData, setDragCardData] = useState<CardImageInfo>(
+		EntertainmentCardDataList[0],
+	);
+	const [centerIndex, setCenterIndex] = useState(0);
 
-	const handleClick = () => {
-		setIsCardVisible(!isCardVisible);
+	// 段階的画像プリロード - 表示中のカード + 前後1枚をプリロード
+	const cardImageData = EntertainmentCardDataList.map((card) => ({
+		id: card.id.toString(),
+		src: card.src,
+	}));
+	const imageQueries = useVisibleCardImages(cardImageData, centerIndex, 1);
+
+	// DragCardView用の画像プリロード状態
+	const dragCardImageQuery = useCardImage(
+		dragCardData.id.toString(),
+		dragCardData.src,
+		isDragCardVisible,
+	);
+
+	const allLoaded =
+		imageQueries.totalCount > 0 &&
+		imageQueries.loadedCount === imageQueries.totalCount;
+	const showMainCard = allLoaded && !isDragCardVisible;
+	const showDragCard =
+		allLoaded && isDragCardVisible && dragCardImageQuery.data;
+
+	const handleClick = (dragCard: CardImageInfo) => {
+		// 同期的な状態更新でフラッシュを防ぐ
+		setDragCardData(dragCard);
+		setIsDragCardVisible(true);
+	};
+
+	const handleCenterChange = (newCenterIndex: number) => {
+		setCenterIndex(newCenterIndex);
 	};
 
 	return (
-		// z-[var(--z-index-1)]
-		<div className="relative flex min-h-screen items-center justify-center">
-			{!isCardVisible && (
-				<div className="text-center">
-					<h1 className="mb-8 font-bold text-2xl text-white">
-						アニメカード - ぬん
-					</h1>
-					<div className="perspective-1000 flex items-center justify-center">
-						<button type="button" onClick={handleClick}>
-							<CardImageView
-								src={getEntertainmentCardPath(EntertainmentCardName.Nekomata)}
-								alt="moving card"
-								width={200}
-								height={200}
-							/>
-						</button>
-					</div>
-					<p className="mt-8 text-sm text-white opacity-80">
-						カードをクリックして3D回転させてみてください
-					</p>
+		<>
+			{/* ローディング画面 */}
+			{!allLoaded && (
+				<div className="fixed inset-0 z-[var(--z-index-5)] h-screen w-screen">
+					<LoadingAnimation />
 				</div>
 			)}
-			{/* z-[var(--z-index-2)]*/}
-			{isCardVisible && (
-				<div className="absolute inset-0 z-50">
-					<DraggableCardView
-						imageSrc={getEntertainmentCardPath(EntertainmentCardName.Nekomata)}
-						imageAlt="moving card"
-						onBackgroundClick={handleClick}
+
+			{/* メインコンテンツ */}
+			<div className="relative flex min-h-screen items-center justify-center">
+				<div
+					className={`z-[var(--z-index-1)] text-center ${showMainCard ? "visible" : "invisible"}`}
+				>
+					<RotationCardArea
+						cardList={EntertainmentCardDataList}
+						onClick={handleClick}
+						onCenterChange={handleCenterChange}
 					/>
 				</div>
-			)}
-		</div>
+
+				{/* z-[var(--z-index-2)]*/}
+				<div
+					className={`absolute inset-0 z-[var(--z-index-2)] ${showDragCard ? "visible" : "invisible"}`}
+				>
+					<DraggableCardView
+						cardImageInfo={dragCardData}
+						onBackgroundClick={() => setIsDragCardVisible(false)}
+					/>
+				</div>
+			</div>
+		</>
 	);
 };
 

@@ -1,26 +1,30 @@
 import { Panel } from "@/components/shared/panel/Panel";
 import CardWith3DEffects from "@/features/entertainment-card/components/card-with-3d-effects/CardWith3DEffects";
 import DraggableCard3D from "@/features/entertainment-card/components/draggable-card-3d/DraggableCard3D";
+import type { CardImageLoadProps, Simplify } from "@/types";
 
-type DraggableCardViewProps = {
-	imageSrc: URL;
-	imageAlt: string;
-	onBackgroundClick: () => void;
-	dragSpeed?: number;
-	releaseStiffness?: number;
-	containerPadding?: number;
-	rotationLimit?: number;
-};
+type DraggableCardViewProps = Simplify<
+	CardImageLoadProps & {
+		onBackgroundClick: () => void;
+		dragSpeed?: number;
+		releaseStiffness?: number;
+		containerPadding?: number;
+		rotationLimit?: number;
+		isInvisible?: boolean;
+	}
+>;
 
+// 画像取得に失敗した場合はこのコンポーネントそのものを表示しない
 const DraggableCardView = ({
-	imageSrc,
-	imageAlt,
+	cardImageInfo,
 	onBackgroundClick,
 	dragSpeed = 0.4,
 	releaseStiffness = 20,
 	containerPadding = 50,
 	rotationLimit = 60,
+	isInvisible = false,
 }: DraggableCardViewProps) => {
+	if (isInvisible) return <div />;
 	return (
 		<>
 			<Panel className="z-10 bg-black/70" onClickEvent={onBackgroundClick} />
@@ -39,7 +43,13 @@ const DraggableCardView = ({
 						containerPadding={containerPadding}
 						rotationLimit={rotationLimit}
 					>
-						<CardWith3DEffects imageSrc={imageSrc} imageAlt={imageAlt} />
+						{(rotationX: number, rotationY: number) => (
+							<CardWith3DEffects
+								cardImageInfo={cardImageInfo}
+								rotationX={rotationX}
+								rotationY={rotationY}
+							/>
+						)}
 					</DraggableCard3D>
 				</div>
 			</div>

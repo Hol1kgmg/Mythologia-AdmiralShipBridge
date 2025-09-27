@@ -24,7 +24,7 @@ export const LoadingAnimation: FC<Props> = ({
 }) => {
 	return (
 		<div
-			className={`flex flex-col items-center justify-center ${zIndex || ""}`}
+			className={`flex h-full w-full flex-col items-center justify-center ${zIndex || ""}`}
 		>
 			<div className="relative mb-6">
 				<Image
@@ -52,7 +52,7 @@ export const LoadingAnimation: FC<Props> = ({
 				variant="p"
 				className="animate-pulse text-lg text-muted-foreground"
 			>
-				Loading now ...
+				Now Loading ...
 			</Typography>
 		</div>
 	);

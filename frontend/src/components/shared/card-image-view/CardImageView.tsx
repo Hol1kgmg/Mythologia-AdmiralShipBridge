@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import { type FC, useState } from "react";
-import { getImageSrc } from "@/features/entertainment-card/utils/imageUtils";
+import type { CardImageLoadProps, Simplify } from "@/types";
 
-type Props = {
-	src: URL;
-	alt: string;
-	width: number;
-	height: number;
-};
+type Props = Simplify<
+	CardImageLoadProps & {
+		width: number;
+		height: number;
+		maxWidthPercent?: number;
+		maxHeightPercent?: number;
+		priority?: boolean;
+	}
+>;
 
 /**
  * CardImageView - 画像表示とエラーハンドリングを行うコンポーネント
@@ -32,11 +35,24 @@ type Props = {
  * }
  */
 
-export const CardImageView: FC<Props> = ({ src, alt, width, height }) => {
+export const CardImageView: FC<Props> = ({
+	cardImageInfo,
+	width,
+	height,
+	onLoad = () => {},
+	onError = () => {},
+	maxWidthPercent = 80,
+	maxHeightPercent = 80,
+	priority = false,
+}) => {
 	const [hasError, setHasError] = useState(false);
 
-	const imageSrc = getImageSrc(src);
+	const handleError = () => {
+		setHasError(true);
+		onError();
+	};
 
+	// TODO: カードサイズに合うようにサイズを調整
 	if (hasError) {
 		return (
 			<div
@@ -46,13 +62,22 @@ export const CardImageView: FC<Props> = ({ src, alt, width, height }) => {
 		);
 	}
 
+	const isGif = cardImageInfo.src.toLowerCase().includes(".gif");
+
 	return (
 		<Image
-			src={imageSrc}
-			alt={alt}
+			src={cardImageInfo.src}
+			alt={cardImageInfo.alt}
 			width={width}
 			height={height}
-			onError={() => setHasError(true)}
+			style={{
+				maxWidth: `${maxWidthPercent}vw`,
+				maxHeight: `${maxHeightPercent}vh`,
+			}}
+			unoptimized={isGif}
+			priority={priority}
+			onLoad={onLoad}
+			onError={handleError}
 		/>
 	);
 };

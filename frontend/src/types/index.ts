@@ -11,14 +11,14 @@ export type {
 	ApiState,
 	ResultType,
 } from "./baseTypes";
-
+export type { CardImageInfo } from "./cardDataTypes";
 export type {
 	FeatureFlagError,
 	FeatureFlagKey,
 	FeatureFlags,
 } from "./featureFlagTypes";
-
 export type {
+	CardImageLoadProps,
 	DialogComponentProps,
 	Simplify,
 	ZindexProps,
