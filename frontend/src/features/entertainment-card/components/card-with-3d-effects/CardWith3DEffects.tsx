@@ -14,19 +14,20 @@ const CardWith3DEffects = ({
 	className = "",
 	rotationX = 0,
 }: CardWith3DEffectsProps) => {
-	// rotationX角度に基づいて影の強度を計算（下向きの時のみ）
-	const calculateShadowOpacity = (rotationX: number): number => {
-		// rotationXが正の値（下向き）の時のみ影を適用
-		if (rotationX <= 0) return 0;
+	// rotationX角度に基づいてbrightness filterを計算（下向きの時のみ）
+	const calculateBrightnessFilter = (rotationX: number): string | undefined => {
+		// rotationXが正の値（下向き）の時のみ暗くする
+		if (rotationX <= 0) return undefined;
 
-		// 0度から60度までの範囲で、0から0.6まで線形補間（より暗く）
+		// 0度から60度までの範囲で、1.0から0.4まで線形補間（より暗く）
 		const maxRotation = 60;
-		const maxOpacity = 0.6;
+		const minBrightness = 0.4; // 最も暗い時の明度
 		const normalizedRotation = Math.min(rotationX, maxRotation) / maxRotation;
-		return normalizedRotation * maxOpacity;
+		const brightness = 1.0 - normalizedRotation * (1.0 - minBrightness);
+		return `brightness(${brightness})`;
 	};
 
-	const shadowOpacity = calculateShadowOpacity(rotationX);
+	const brightnessFilter = calculateBrightnessFilter(rotationX);
 
 	return (
 		<div className={`relative ${className}`} style={getContainerStyle()}>
@@ -36,20 +37,12 @@ const CardWith3DEffects = ({
 			{/* カード表面のより深い影 */}
 			<CardLayer layerType="shadow2" cardImageInfo={cardImageInfo} />
 
-			{/* X軸回転による動的影レイヤー */}
-			{shadowOpacity > 0 && (
-				<div
-					className="absolute inset-0"
-					style={{
-						background: `linear-gradient(to bottom, rgba(0,0,0,${shadowOpacity * 0.7}) 0%, rgba(0,0,0,${shadowOpacity}) 100%)`,
-						transform: "translateZ(5px)",
-						borderRadius: "inherit",
-					}}
-				/>
-			)}
-
-			{/* カード表面 */}
-			<CardLayer layerType="front" cardImageInfo={cardImageInfo} />
+			{/* カード表面（X軸回転による動的brightness filter適用） */}
+			<CardLayer
+				layerType="front"
+				cardImageInfo={cardImageInfo}
+				filter={brightnessFilter}
+			/>
 		</div>
 	);
 };
