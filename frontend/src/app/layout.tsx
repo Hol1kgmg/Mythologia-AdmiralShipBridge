@@ -150,6 +150,13 @@ const RootLayout = ({
 				<meta property="og:image:type" content="image/png" />
 				<meta property="og:image:width" content="1200" />
 				<meta property="og:image:height" content="630" />
+
+				{/* PWAのステータスバー設定 iOS限定*/}
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta
+					name="apple-mobile-web-app-status-bar-style"
+					content="black-translucent"
+				/>
 			</head>
 			<body className={`dark antialiased ${geistMono.variable}`}>
 				<QueryClientProviderWrapper>
