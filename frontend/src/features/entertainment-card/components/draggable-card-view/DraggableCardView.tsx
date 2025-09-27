@@ -43,7 +43,12 @@ const DraggableCardView = ({
 						containerPadding={containerPadding}
 						rotationLimit={rotationLimit}
 					>
-						<CardWith3DEffects cardImageInfo={cardImageInfo} />
+						{(rotationX: number) => (
+							<CardWith3DEffects
+								cardImageInfo={cardImageInfo}
+								rotationX={rotationX}
+							/>
+						)}
 					</DraggableCard3D>
 				</div>
 			</div>

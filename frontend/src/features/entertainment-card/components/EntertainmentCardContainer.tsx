@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LoadingAnimation } from "@/components/shared/loading-animation/LoadingAnimation";
-import { useVisibleCardImages } from "@/hooks/useCardImage";
+import { useCardImage, useVisibleCardImages } from "@/hooks/useCardImage";
 import {
 	EntertainmentCardName,
 	getEntertainmentCardPath,
@@ -46,15 +46,24 @@ const EntertainmentCardContainer = () => {
 	}));
 	const imageQueries = useVisibleCardImages(cardImageData, centerIndex, 1);
 
+	// DragCardView用の画像プリロード状態
+	const dragCardImageQuery = useCardImage(
+		dragCardData.id.toString(),
+		dragCardData.src,
+		isDragCardVisible,
+	);
+
 	const allLoaded =
 		imageQueries.totalCount > 0 &&
 		imageQueries.loadedCount === imageQueries.totalCount;
 	const showMainCard = allLoaded && !isDragCardVisible;
-	const showDragCard = allLoaded && isDragCardVisible;
+	const showDragCard =
+		allLoaded && isDragCardVisible && dragCardImageQuery.data;
 
 	const handleClick = (dragCard: CardImageInfo) => {
-		setIsDragCardVisible(true);
+		// 同期的な状態更新でフラッシュを防ぐ
 		setDragCardData(dragCard);
+		setIsDragCardVisible(true);
 	};
 
 	const handleCenterChange = (newCenterIndex: number) => {

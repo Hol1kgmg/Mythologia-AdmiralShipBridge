@@ -1,8 +1,8 @@
 import { createDraggable, utils } from "animejs";
-import { type ReactNode, useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 type DraggableCard3DProps = {
-	children: ReactNode;
+	children: ReactNode | ((rotationX: number) => ReactNode);
 	dragSpeed?: number;
 	releaseStiffness?: number;
 	containerPadding?: number;
@@ -17,6 +17,7 @@ const DraggableCard3D = ({
 	rotationLimit = 60,
 }: DraggableCard3DProps) => {
 	const cardRef = useRef<HTMLDivElement>(null);
+	const [rotationX, setRotationX] = useState(0);
 
 	useEffect(() => {
 		if (!cardRef.current) return;
@@ -32,14 +33,21 @@ const DraggableCard3D = ({
 			},
 			y: {
 				mapTo: "rotateX",
-				modifier: (value: number) =>
-					Math.max(-rotationLimit, Math.min(rotationLimit, -value)),
+				modifier: (value: number) => {
+					const clampedValue = Math.max(
+						-rotationLimit,
+						Math.min(rotationLimit, -value),
+					);
+					setRotationX(clampedValue);
+					return clampedValue;
+				},
 			},
 			dragSpeed,
 			releaseStiffness,
 			containerPadding,
 			onRelease: () => {
 				draggableInstance.reset();
+				setRotationX(0);
 			},
 		});
 
@@ -61,7 +69,7 @@ const DraggableCard3D = ({
 				transformStyle: "preserve-3d",
 			}}
 		>
-			{children}
+			{typeof children === "function" ? children(rotationX) : children}
 		</div>
 	);
 };
