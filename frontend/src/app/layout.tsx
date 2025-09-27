@@ -5,6 +5,7 @@ import { CoverScreen } from "@/components/shared/cover-screen/CoverScreen";
 import { Header } from "@/components/shared/header/Header";
 import { OrientationGuide } from "@/components/shared/orientation-guide/OrientationGuide";
 import PathBasedScreen from "@/components/shared/path-based-screen/PathBasedScreen";
+import { QueryClientProviderWrapper } from "@/lib/providers/query-client-provider";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -151,14 +152,16 @@ const RootLayout = ({
 				<meta property="og:image:height" content="630" />
 			</head>
 			<body className={`dark antialiased ${geistMono.variable}`}>
-				<OrientationGuide />
-				<Header />
-				<div className="fixed inset-0 h-screen w-screen bg-gray-900">
-					<CoverScreen />
+				<QueryClientProviderWrapper>
+					<OrientationGuide />
+					<Header />
+					<div className="fixed inset-0 h-screen w-screen bg-gray-900">
+						<CoverScreen />
 
-					<PathBasedScreen />
-					<AnimationWrapper>{children}</AnimationWrapper>
-				</div>
+						<PathBasedScreen />
+						<AnimationWrapper>{children}</AnimationWrapper>
+					</div>
+				</QueryClientProviderWrapper>
 			</body>
 		</html>
 	);

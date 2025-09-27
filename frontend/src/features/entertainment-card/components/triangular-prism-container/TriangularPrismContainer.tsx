@@ -1,15 +1,23 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
+import { CardImageView } from "@/components/shared/card-image-view/CardImageView";
+import type { CardImageInfo } from "@/types";
 import { RotatingCard } from "../rotating-card/RotatingCard";
 
 interface TriangularPrismContainerProps {
 	rotationY: number;
 	shouldShake?: boolean;
+	cardList: CardImageInfo[];
+	centerCard: CardImageInfo;
+	onClick: (card: CardImageInfo) => void;
 }
 
-export const TriangularPrismContainer = ({
+export const TriangularPrismContainer: FC<TriangularPrismContainerProps> = ({
 	rotationY,
 	shouldShake = false,
+	cardList,
+	centerCard,
+	onClick,
 }: TriangularPrismContainerProps) => {
 	const [windowWidth, setWindowWidth] = useState(0);
 
@@ -31,29 +39,12 @@ export const TriangularPrismContainer = ({
 	const cardHeight = cardWidth * (300 / 240); // 4:5のアスペクト比を維持
 	const translateZ = cardWidth * 0.5; // カード幅の半分を三角柱の半径とする
 
-	const cards = [
-		{
-			id: 1,
-			rotation: 0,
-			gradient: "from-red-500 to-pink-600",
-			title: "カード 1",
-			subtitle: "正面 (0°)",
-		},
-		{
-			id: 2,
-			rotation: 120,
-			gradient: "from-green-500 to-emerald-600",
-			title: "カード 2",
-			subtitle: "120度",
-		},
-		{
-			id: 3,
-			rotation: 240,
-			gradient: "from-blue-500 to-indigo-600",
-			title: "カード 3",
-			subtitle: "240度",
-		},
-	];
+	const handleClick = (card: CardImageInfo) => {
+		console.log("クリック");
+		if (centerCard.id !== card.id) return;
+		console.log("成功");
+		onClick(card);
+	};
 
 	return (
 		<div
@@ -79,12 +70,12 @@ export const TriangularPrismContainer = ({
 					ease: shouldShake ? "easeInOut" : "easeInOut",
 				}}
 			>
-				{cards.map((card) => (
+				{cardList.map((card) => (
 					<div
 						key={card.id}
 						className="absolute"
 						style={{
-							transform: `rotateY(${card.rotation}deg) translateZ(${translateZ}px)`,
+							transform: `rotateY(${(card.id - 1) * 120}deg) translateZ(${translateZ}px)`,
 							transformStyle: "preserve-3d",
 						}}
 					>
@@ -93,10 +84,15 @@ export const TriangularPrismContainer = ({
 							cardWidth={cardWidth}
 							cardHeight={cardHeight}
 						>
-							<div
-								className="h-auto w-fit bg-gray-400"
-								style={{ height: `${cardHeight}px`, width: `${cardWidth}px` }}
-							/>
+							<button type="button" onClick={() => handleClick(card)}>
+								<CardImageView
+									cardImageInfo={card}
+									width={cardWidth}
+									height={cardHeight}
+									// onLoad={handleImageLoad} // TODO
+									maxHeightPercent={100}
+								/>
+							</button>
 						</RotatingCard>
 					</div>
 				))}

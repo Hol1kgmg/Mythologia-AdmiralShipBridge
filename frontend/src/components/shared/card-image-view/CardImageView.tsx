@@ -73,8 +73,6 @@ export const CardImageView: FC<Props> = ({
 			style={{
 				maxWidth: `${maxWidthPercent}vw`,
 				maxHeight: `${maxHeightPercent}vh`,
-				width: "auto",
-				height: "auto",
 			}}
 			unoptimized={isGif}
 			priority={priority}

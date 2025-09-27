@@ -20,13 +20,22 @@ export const getContentCardPath = (cardNumber: number): string =>
 
 // entertaiment-card用の定数
 export const EntertainmentCardName = {
-	Nun: "nun.gif",
-	Gogon: "gogon.gif",
-	Nekomata: "nekomata.gif",
+	Nun: {
+		file: "nun.gif",
+		label: "ヌン",
+	},
+	Gogon: {
+		file: "gogon.gif",
+		label: "ゴーゴン",
+	},
+	Nekomata: {
+		file: "nekomata.gif",
+		label: "猫又",
+	},
 } as const;
 
 type EntertainmentCardType =
-	(typeof EntertainmentCardName)[keyof typeof EntertainmentCardName];
+	(typeof EntertainmentCardName)[keyof typeof EntertainmentCardName]["file"];
 
 export const getEntertainmentCardPath = (
 	cardName: EntertainmentCardType,

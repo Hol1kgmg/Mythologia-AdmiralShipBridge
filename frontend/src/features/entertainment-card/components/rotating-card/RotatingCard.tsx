@@ -20,7 +20,7 @@ export function RotatingCard({
 	return (
 		<div className="perspective-1000" style={{ perspective: "1000px" }}>
 			<motion.div
-				className={`cursor-pointer bg-gray-400 ${className}`}
+				className={`cursor-pointer ${className}`}
 				style={{
 					height: `${cardHeight}px`,
 					width: `${cardWidth}px`,

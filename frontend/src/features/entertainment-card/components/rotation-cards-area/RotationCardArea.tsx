@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { type FC, useState } from "react";
 import { Typography } from "@/components/shared/typography/Typography";
+import type { CardImageInfo } from "@/types";
 import { RotationControls } from "../rotation-controls/RotationControls";
 import { TriangularPrismContainer } from "../triangular-prism-container/TriangularPrismContainer";
 
 const MAX_ROTATION = 9999;
 const MIN_ROTATION = -9999;
 
-export const RotationCardArea = () => {
+type Props = {
+	cardList: CardImageInfo[];
+	onClick: (card: CardImageInfo) => void;
+	onCenterChange?: (centerIndex: number) => void;
+};
+
+export const RotationCardArea: FC<Props> = ({
+	cardList,
+	onClick,
+	onCenterChange,
+}) => {
 	const [rotationY, setRotationY] = useState(0);
 	const [shouldShake, setShouldShake] = useState(false);
+	const [centerCard, setCenterCard] = useState(cardList[0]);
 
 	const handleRotatePositive = () => {
 		const newRotation = rotationY + 120;
 		if (newRotation <= MAX_ROTATION) {
+			const currentIndex = cardList.findIndex(
+				(card) => card.id === centerCard.id,
+			);
+			const prevIndex = (currentIndex - 1 + cardList.length) % cardList.length;
+			setCenterCard(cardList[prevIndex]);
+			onCenterChange?.(prevIndex);
 			setRotationY(newRotation);
 		} else {
 			// 制限を超えた場合は震えアニメーションをトリガー
@@ -24,6 +42,12 @@ export const RotationCardArea = () => {
 	const handleRotateNegative = () => {
 		const newRotation = rotationY - 120;
 		if (newRotation >= MIN_ROTATION) {
+			const currentIndex = cardList.findIndex(
+				(card) => card.id === centerCard.id,
+			);
+			const nextIndex = (currentIndex + 1 + cardList.length) % cardList.length;
+			setCenterCard(cardList[nextIndex]);
+			onCenterChange?.(nextIndex);
 			setRotationY(newRotation);
 		} else {
 			// 制限を超えた場合は震えアニメーションをトリガー
@@ -37,15 +61,26 @@ export const RotationCardArea = () => {
 			<TriangularPrismContainer
 				rotationY={rotationY}
 				shouldShake={shouldShake}
+				cardList={cardList}
+				centerCard={centerCard}
+				onClick={onClick}
 			/>
 
 			<Typography
 				variant={"p"}
 				className="-top-[15vh] absolute h-full w-full text-4xl"
 			>
-				ヌン
+				{`${centerCard.title}`}
 			</Typography>
-			<div className="absolute flex h-full w-full items-center">
+			{shouldShake && (
+				<Typography
+					variant={"p"}
+					className="-top-[10vh] absolute h-full w-full text-red-500 text-xl"
+				>
+					これ以上回せません
+				</Typography>
+			)}
+			<div className="pointer-events-none absolute flex h-full w-full items-center">
 				<RotationControls
 					onRotatePositive={handleRotatePositive}
 					onRotateNegative={handleRotateNegative}
