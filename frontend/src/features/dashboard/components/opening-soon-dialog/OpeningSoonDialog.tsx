@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { FC } from "react";
 import { Box } from "@/components/shared/box/Box";
 import { Typography } from "@/components/shared/typography/Typography";
@@ -28,6 +29,14 @@ export const OpeningSoonDialog: FC<DialogComponentProps> = ({
 					>
 						『神託のメソロギア』ユーザーの皆様により良い体験を提供するため、準備中です。
 					</Typography>
+					<Link href="/entertainment-card" className="text-gray-400 text-sm">
+						<Typography
+							variant="p"
+							className="text-center text-blue-400 text-sm underline hover:text-blue-300"
+						>
+							デモページ
+						</Typography>
+					</Link>
 				</Box>
 			</DialogContent>
 		</Dialog>
