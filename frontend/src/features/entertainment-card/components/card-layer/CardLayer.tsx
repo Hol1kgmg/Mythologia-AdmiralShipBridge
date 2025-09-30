@@ -28,7 +28,7 @@ const CardLayer = ({ layerType, cardImageInfo, filter }: CardLayerProps) => {
 				className={getImageClasses(isMainLayer, cardImageInfo.src)}
 				style={filter ? { filter } : undefined}
 				draggable={false}
-				unoptimized={isGif && isMainLayer}
+				unoptimized={isGif}
 				fill
 				priority
 			/>
