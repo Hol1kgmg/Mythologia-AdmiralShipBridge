@@ -40,9 +40,7 @@ export const TriangularPrismContainer: FC<TriangularPrismContainerProps> = ({
 	const translateZ = cardWidth * 0.5; // カード幅の半分を三角柱の半径とする
 
 	const handleClick = (card: CardImageInfo) => {
-		console.log("クリック");
 		if (centerCard.id !== card.id) return;
-		console.log("成功");
 		onClick(card);
 	};
 

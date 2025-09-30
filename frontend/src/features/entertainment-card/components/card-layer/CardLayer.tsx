@@ -18,6 +18,8 @@ const CardLayer = ({ layerType, cardImageInfo, filter }: CardLayerProps) => {
 	const layerStyle = createCardLayerStyle(layerType);
 	const isMainLayer = layerType === "front";
 
+	const isGif = cardImageInfo.src.toLowerCase().includes(".gif");
+
 	return (
 		<div className={getLayerBaseClasses()} style={layerStyle}>
 			<Image
@@ -26,6 +28,7 @@ const CardLayer = ({ layerType, cardImageInfo, filter }: CardLayerProps) => {
 				className={getImageClasses(isMainLayer, cardImageInfo.src)}
 				style={filter ? { filter } : undefined}
 				draggable={false}
+				unoptimized={isGif}
 				fill
 				priority
 			/>
